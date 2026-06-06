@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鍒濅簩涓€鐝疄鏃惰绋嬭〃</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>馃搮</text></svg>">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+}
+.container {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 1400px;
+  align-items: flex-start;
+}
+.sidebar {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  width: 230px;
+  min-width: 230px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.sidebar .date-box {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 20px 12px;
+  margin-bottom: 16px;
+}
+.sidebar .month {
+  font-size: 15px;
+  opacity: 0.9;
+  letter-spacing: 2px;
+}
+.sidebar .day {
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 4px 0;
+}
+.sidebar .weekday {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.95;
+}
+.sidebar .info-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px 12px;
+  margin-bottom: 12px;
+}
+.sidebar .info-label {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.sidebar .info-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+.sidebar .encourage {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.sidebar .next-class-preview {
+  background: #fffde7;
+  border: 2px solid #ffe082;
+  border-radius: 12px;
+  padding: 14px 10px;
+  margin-top: 12px;
+}
+.sidebar .next-class-preview .nc-label {
+  font-size: 12px;
+  color: #f57f17;
+  margin-bottom: 4px;
+}
+.sidebar .next-class-preview .nc-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e65100;
+}
+.sidebar .next-class-preview .nc-time {
+  font-size: 13px;
+  color: #bf360c;
+  margin-top: 2px;
+}
+.sidebar .weekend-msg {
+  background: #e8f5e9;
+  border-radius: 12px;
+  padding: 24px 14px;
+  color: #2e7d32;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+.main {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.main h1 {
+  font-size: 24px;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.main .subtitle {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 16px;
+}
+.right-panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+}
+.right-panel h3 {
+  font-size: 15px;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0f0f0;
+}
+.right-panel .legend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 8px;
+  margin-bottom: 14px;
+}
+.right-panel .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555;
+}
+.right-panel .legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.right-panel .timeline-list {
+  list-style: none;
+  max-height: 380px;
+  overflow-y: auto;
+}
+.right-panel .timeline-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 12px;
+}
+.right-panel .timeline-item:last-child { border-bottom: none; }
+.right-panel .timeline-time {
+  color: #999;
+  white-space: nowrap;
+  min-width: 64px;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Courier New', monospace;
+}
+.right-panel .timeline-subject {
+  color: #333;
+  font-weight: 500;
+}
+.right-panel .timeline-badge {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.right-panel .timeline-item.current {
+  background: #e3f2fd;
+  border-radius: 6px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+}
+.right-panel .timeline-item.next {
+  background: #fffde7;
+  border-radius: 6px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+}
+@media (max-width: 1350px) {
+  .right-panel { display: none; }
+}
+.info-banner {
+  background: linear-gradient(135deg, #5B4FCF 0%, #7C6FE0 50%, #6A5ACD 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  flex-wrap: wrap;
+  line-height: 1.5;
+}
+.info-banner .banner-dot {
+  width: 8px;
+  height: 8px;
+  background: #D3D3D3;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.info-banner .banner-sep {
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+}
+.info-banner .banner-status {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.info-banner .banner-countdown {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.info-banner .banner-tomorrow {
+  flex: 1 1 auto;
+  min-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.break-timer {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 600;
+}
+.break-timer .countdown {
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Courier New', monospace;
+}
+.weekend-banner {
+  background: linear-gradient(135deg, #a8e6cf 0%, #88d8b0 100%);
+  color: #1b5e20;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 4px;
+}
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    min-width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+    justify-content: center;
+  }
+  .sidebar .date-box {
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .sidebar .date-box .month { font-size: 13px; }
+  .sidebar .date-box .day { font-size: 30px; }
+  .sidebar .date-box .weekday { font-size: 14px; }
+  .sidebar .info-card {
+    flex: 1 1 auto;
+    min-width: 100px;
+    margin-bottom: 0;
+  }
+  .sidebar .next-class-preview {
+    flex: 1 1 100%;
+    margin-top: 0;
+  }
+  .main { padding: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+    <h1>馃搮 鍒濅簩涓€鐝疄鏃惰绋嬭〃</h1>
+    <div class="subtitle" id="currentTimeDisplay"></div>
+    <div class="info-banner" id="infoBanner">
+      <span class="banner-dot"></span>
+      <span class="banner-status" id="bannerStatus"></span>
+      <span class="banner-sep">|</span>
+      <span class="banner-countdown" id="bannerCountdown"></span>
+      <span class="banner-sep">|</span>
+      <span class="banner-tomorrow" id="bannerTomorrow"></span>
+    </div>
+    <div class="break-timer" id="breakTimer" style="display:none;">
+      <span>鈴?璺濈涓嬭杩樻湁</span>
+      <span class="countdown" id="countdownText">--:--</span>
+    </div>
+    <div class="weekend-banner" id="weekendBanner" style="display:none;">馃尶 濂藉ソ浼戞伅锛屽懆鏈剦蹇紒</div>
+    <canvas id="scheduleCanvas"></canvas>
+  </main>
+  <aside class="right-panel" id="rightPanel">
+    <h3>绉戠洰鍥句緥</h3>
+    <div class="legend-grid" id="legendGrid"></div>
+    <h3>浠婃棩璇剧▼</h3>
+    <ul class="timeline-list" id="timelineList"></ul>
+  </aside>
+</div>
+
+<script>
+const SCHEDULE = [
+  { period:'鏃╄',   mon:'鏍′細',     tue:'鑻辫',     wed:'鐢熺墿',     thu:'璇枃',     fri:'璺戞搷' },
+  { period:'绗?鑺?,  mon:'涓撻鏁欒偛', tue:'鑻辫',     wed:'鐢熺墿',     thu:'璇枃',     fri:'鏁板' },
+  { period:'绗?鑺?,  mon:'鍘嗗彶',     tue:'閬撳痉涓庢硶娌?, wed:'璇枃',    thu:'鑻辫',     fri:'璇枃' },
+  { period:'绗?鑺?,  mon:'闊充箰',     tue:'鐗╃悊',     wed:'閬撳痉涓庢硶娌?, thu:'鍦扮悊',    fri:'鐢熺墿' },
+  { period:'绗?鑺?,  mon:'浣撹偛',     tue:'鐢熺墿',     wed:'鍦扮悊',     thu:'淇℃伅鎶€鏈?, fri:'鍘嗗彶' },
+  { period:'绗?鑺?,  mon:'璇枃',     tue:'浣撹偛',     wed:'鑻辫',     thu:'鏁板',     fri:'鐗╃悊' },
+  { period:'绗?鑺?,  mon:'鏁板',     tue:'缇庢湳',     wed:'浣撹偛',     thu:'鏁板',     fri:'蹇冪悊' },
+  { period:'绗?鑺?,  mon:'鍦扮悊',     tue:'璇枃',     wed:'鏁板',     thu:'鐗╃悊',     fri:'鑻辫' },
+  { period:'绗?鑺?,  mon:'鑻辫',     tue:'鏁板',     wed:'鐗╃悊',     thu:'鐢熺墿',     fri:'鍦扮悊' },
+  { period:'鐢熷湴鑳屼功', mon:'鉁?,      tue:'鉁?,       wed:'鉁?,      thu:'鉁?,       fri:'鉁? },
+];
+
+const TIME_SLOTS = [
+  { period:'鏃╄',   start:'07:30', end:'07:50' },
+  { period:'绗?鑺?,  start:'08:00', end:'08:40' },
+  { period:'绗?鑺?,  start:'08:55', end:'09:35' },
+  { period:'绗?鑺?,  start:'10:05', end:'10:45' },
+  { period:'绗?鑺?,  start:'11:00', end:'11:40' },
+  { period:'绗?鑺?,  start:'14:40', end:'15:20' },
+  { period:'绗?鑺?,  start:'15:35', end:'16:15' },
+  { period:'绗?鑺?,  start:'16:30', end:'17:10' },
+  { period:'绗?鑺?,  start:'17:25', end:'18:05' },
+  { period:'鐢熷湴鑳屼功', start:'18:50', end:'19:30' },
+];
+
+const EXAM_DATES = {
+  huikao: new Date('2026-06-20'),
+  zhongkao: new Date('2027-06-20'),
+};
+
+const COLORS = {
+  '鏍′細':'#9B59B6','鑻辫':'#3498DB','鐢熺墿':'#27AE60','璇枃':'#E74C3C','璺戞搷':'#E67E22',
+  '涓撻鏁欒偛':'#8E44AD','鍘嗗彶':'#A0522D','閬撳痉涓庢硶娌?:'#C0392B','闊充箰':'#FF69B4',
+  '鐗╃悊':'#1ABC9C','鍦扮悊':'#D4A574','浣撹偛':'#2ECC71','淇℃伅鎶€鏈?:'#2980B9',
+  '鏁板':'#2C3E50','缇庢湳':'#E91E63','蹇冪悊':'#FF6F91','鉁?:'#16A085'
+};
+
+const COLOR_BG = {
+  '鏍′細':'#f3e5f5','鑻辫':'#e3f2fd','鐢熺墿':'#e8f5e9','璇枃':'#fdecea','璺戞搷':'#fff3e0',
+  '涓撻鏁欒偛':'#f3e5f5','鍘嗗彶':'#efebe9','閬撳痉涓庢硶娌?:'#fdecea','闊充箰':'#fce4ec',
+  '鐗╃悊':'#e0f7fa','鍦扮悊':'#fff8e1','浣撹偛':'#e8f5e9','淇℃伅鎶€鏈?:'#e3f2fd',
+  '鏁板':'#eceff1','缇庢湳':'#fce4ec','蹇冪悊':'#fce4ec','鉁?:'#e0f2f1'
+};
+
+const days = ['鏄熸湡涓€','鏄熸湡浜?,'鏄熸湡涓?,'鏄熸湡鍥?,'鏄熸湡浜?];
+const dayKeys = ['mon','tue','wed','thu','fri'];
+
+function timeToMinutes(t) {
+  const [h,m] = t.split(':').map(Number);
+  return h*60 + m;
+}
+
+function getCurrentClassInfo() {
+  const now = new Date();
+  const dow = now.getDay(); // 0=Sun, 1=Mon, ...
+  const currentMinutes = now.getHours()*60 + now.getMinutes();
+  if (dow === 0 || dow === 6) return { isWeekend: true, dow };
+  const dayIdx = dow - 1; // 0=Mon
+  let currentClass = null, nextClass = null;
+  for (let i = 0; i < TIME_SLOTS.length; i++) {
+    const s = timeToMinutes(TIME_SLOTS[i].start);
+    const e = timeToMinutes(TIME_SLOTS[i].end);
+    if (currentMinutes >= s && currentMinutes < e) {
+      currentClass = { ...TIME_SLOTS[i], index: i, endMinutes: e };
+      if (i + 1 < TIME_SLOTS.length) {
+        nextClass = { ...TIME_SLOTS[i+1], index: i+1 };
+      }
+      return { isWeekend: false, dow, dayIdx, currentClass, nextClass, currentMinutes };
+    }
+  }
+  for (let i = 0; i < TIME_SLOTS.length; i++) {
+    const s = timeToMinutes(TIME_SLOTS[i].start);
+    if (currentMinutes < s) {
+      nextClass = { ...TIME_SLOTS[i], index: i };
+      return { isWeekend: false, dow, dayIdx, currentClass: null, nextClass, currentMinutes };
+    }
+  }
+  return { isWeekend: false, dow, dayIdx, currentClass: null, nextClass: null, currentMinutes };
+}
+
+let classInfo = getCurrentClassInfo();
+
+function drawSchedule() {
+  const canvas = document.getElementById('scheduleCanvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  const rows = SCHEDULE.length + 1; // header + data
+  const cols = 6; // period + 5 days
+
+  const cellW = 150;
+  const cellH = 50;
+  const periodW = 95;
+  const headerH = 58;
+  const totalW = periodW + cellW * 5 + 8 * 1;
+  const totalH = headerH + cellH * (rows - 1) + (rows) * 1;
+
+  canvas.width = totalW * dpr;
+  canvas.height = totalH * dpr;
+  canvas.style.width = totalW + 'px';
+  canvas.style.height = totalH + 'px';
+  ctx.scale(dpr, dpr);
+
+  ctx.clearRect(0, 0, totalW, totalH);
+
+  // Draw header row
+  ctx.fillStyle = '#1a1a2e';
+  roundRect(ctx, 0, 0, periodW, headerH, 8, true, false);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 17px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('璇炬椂', periodW/2, headerH/2);
+
+  for (let c = 0; c < 5; c++) {
+    const x = periodW + 1 + c * (cellW + 1);
+    ctx.fillStyle = '#1a1a2e';
+    roundRect(ctx, x, 0, cellW, headerH, 8, true, false);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 16px "PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText(days[c], x + cellW/2, headerH/2);
+  }
+
+  // Draw data rows
+  for (let r = 0; r < SCHEDULE.length; r++) {
+    const y = headerH + 1 + r * (cellH + 1);
+    const isCurrentRow = classInfo.currentClass && classInfo.currentClass.index === r && !classInfo.isWeekend;
+    const isNextRow = classInfo.nextClass && classInfo.nextClass.index === r && !classInfo.isWeekend && !isCurrentRow;
+    const dayIdx = classInfo.isWeekend ? -1 : classInfo.dayIdx;
+
+    // Period column
+    let periodBg = '#f5f5f5';
+    let periodTextColor = '#555';
+    if (isCurrentRow) { periodBg = '#e3f2fd'; periodTextColor = '#1565c0'; }
+    else if (isNextRow) { periodBg = '#fffde7'; periodTextColor = '#f57f17'; }
+
+    ctx.fillStyle = periodBg;
+    roundRect(ctx, 0, y, periodW, cellH, 6, true, false);
+    ctx.fillStyle = periodTextColor;
+    ctx.font = 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText(SCHEDULE[r].period, periodW/2, y + cellH/2 - 2);
+
+    // Draw time range in small font below period name
+    if (TIME_SLOTS[r]) {
+      ctx.fillStyle = periodTextColor;
+      ctx.globalAlpha = 0.6;
+      ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.fillText(TIME_SLOTS[r].start + '-' + TIME_SLOTS[r].end, periodW/2, y + cellH/2 + 16);
+      ctx.globalAlpha = 1;
+    }
+
+    // Day columns
+    for (let c = 0; c < 5; c++) {
+      const x = periodW + 1 + c * (cellW + 1);
+      const subject = SCHEDULE[r][dayKeys[c]];
+      const color = COLORS[subject] || '#888';
+      const bg = COLOR_BG[subject] || '#fafafa';
+
+      // Determine if this cell should be highlighted
+      let cellBg = bg;
+      let borderColor = null;
+      let textColor = '#333';
+
+      if (isCurrentRow && dayIdx === c) {
+        cellBg = '#bbdefb';
+        borderColor = '#1565c0';
+        textColor = '#0d47a1';
+      } else if (isNextRow && dayIdx === c) {
+        cellBg = '#fff9c4';
+        borderColor = '#f9a825';
+        textColor = '#e65100';
+      }
+
+      ctx.fillStyle = cellBg;
+      roundRect(ctx, x, y, cellW, cellH, 6, true, false);
+
+      if (borderColor) {
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 2.5;
+        roundRect(ctx, x, y, cellW, cellH, 6, false, true);
+        ctx.lineWidth = 1;
+      }
+
+      // Left color bar
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y + 4, 4, cellH - 8);
+
+      ctx.fillStyle = textColor;
+      ctx.font = (isCurrentRow && dayIdx === c) ? 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif' : '14px "PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(subject, x + cellW/2 + 2, y + cellH/2);
+    }
+  }
+
+  // Legend
+  const legendY = totalH + 10;
+  ctx.textAlign = 'left';
+  ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+  const legendItems = [
+    { color:'#bbdefb', border:'#1565c0', label:'姝ｅ湪涓婅' },
+    { color:'#fff9c4', border:'#f9a825', label:'涓嬩竴鑺傝' },
+  ];
+  legendItems.forEach((item, i) => {
+    const lx = periodW + i * 160;
+    ctx.fillStyle = item.color;
+    ctx.fillRect(lx, legendY, 16, 16);
+    ctx.strokeStyle = item.border;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(lx, legendY, 16, 16);
+    ctx.lineWidth = 1;
+    ctx.fillStyle = '#555';
+    ctx.fillText(item.label, lx + 22, legendY + 12);
+  });
+}
+
+function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.arcTo(x+w, y, x+w, y+r, r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.arcTo(x+w, y+h, x+w-r, y+h, r);
+  ctx.lineTo(x+r, y+h);
+  ctx.arcTo(x, y+h, x, y+h-r, r);
+  ctx.lineTo(x, y+r);
+  ctx.arcTo(x, y, x+r, y, r);
+  ctx.closePath();
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
+}
+
+function updateSidebar() {
+  const now = new Date();
+  const months = ['涓€鏈?,'浜屾湀','涓夋湀','鍥涙湀','浜旀湀','鍏湀','涓冩湀','鍏湀','涔濇湀','鍗佹湀','鍗佷竴鏈?,'鍗佷簩鏈?];
+  const weekdays = ['鏄熸湡鏃?,'鏄熸湡涓€','鏄熸湡浜?,'鏄熸湡涓?,'鏄熸湡鍥?,'鏄熸湡浜?,'鏄熸湡鍏?];
+  const month = months[now.getMonth()];
+  const day = now.getDate();
+  const weekday = weekdays[now.getDay()];
+
+  classInfo = getCurrentClassInfo();
+  const dayIdx = classInfo.isWeekend ? -1 : classInfo.dayIdx;
+
+  let totalClasses = 0;
+  if (!classInfo.isWeekend) {
+    totalClasses = SCHEDULE.length;
+  }
+
+  const encourageMessages = [
+    '馃挭 鍙堟槸鍏冩皵婊℃弧鐨勪竴澶╋紒',
+    '馃摎 鐭ヨ瘑鏀瑰彉鍛借繍锛屽姞娌癸紒',
+    '馃専 浠婂ぉ鐨勫姫鍔涙槸鏄庡ぉ鐨勫簳姘旓紒',
+    '馃幆 涓撴敞姣忎竴鑺傝锛屾敹鑾锋瘡涓€澶╋紒',
+    '馃敟 淇濇寔鐑埍锛屽璧村北娴凤紒',
+    '鉁?鍒濅簩涓€鐝紝姘歌繙鏈€妫掞紒',
+    '馃弳 鏃ョН鏈堢疮锛屾按婊寸煶绌匡紒',
+    '馃寛 姣忎竴姝ラ兘绠楁暟锛屽姞娌瑰皯骞达紒',
+  ];
+  const encourage = encourageMessages[now.getDate() % encourageMessages.length];
+
+  let sidebarHTML = '';
+  sidebarHTML += '<div class="date-box">';
+  sidebarHTML += '<div class="month">' + month + '</div>';
+  sidebarHTML += '<div class="day">' + day + '</div>';
+  sidebarHTML += '<div class="weekday">' + weekday + '</div>';
+  sidebarHTML += '</div>';
+
+  if (classInfo.isWeekend) {
+    sidebarHTML += '<div class="weekend-msg">馃尶 濂藉ソ浼戞伅<br>鍛ㄦ湯鎰夊揩</div>';
+  } else {
+    sidebarHTML += '<div class="info-card">';
+    sidebarHTML += '<div class="info-label">浠婃棩璇剧▼</div>';
+    sidebarHTML += '<div class="info-value">' + totalClasses + ' 鑺?/div>';
+    sidebarHTML += '<div class="encourage">' + encourage + '</div>';
+    sidebarHTML += '</div>';
+
+    // Next class preview
+    if (classInfo.nextClass) {
+      const nextSubject = SCHEDULE[classInfo.nextClass.index][dayKeys[dayIdx]];
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">馃搶 涓嬩竴鑺傝棰勫憡</div>';
+      sidebarHTML += '<div class="nc-name">' + nextSubject + '</div>';
+      sidebarHTML += '<div class="nc-time">' + classInfo.nextClass.period + ' 路 ' + classInfo.nextClass.start + '-' + classInfo.nextClass.end + '</div>';
+      sidebarHTML += '</div>';
+    } else if (classInfo.currentClass) {
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">馃搶 浠婃棩鏈€鍚庝竴鑺傝</div>';
+      sidebarHTML += '<div class="nc-name">璁ょ湡涓婅涓?/div>';
+      sidebarHTML += '<div class="nc-time">鏀惧鍚庡ソ濂戒紤鎭瘇</div>';
+      sidebarHTML += '</div>';
+    } else {
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">馃搶 浠婃棩璇剧▼宸茬粨鏉?/div>';
+      sidebarHTML += '<div class="nc-name">杈涜嫤浜嗭紒</div>';
+      sidebarHTML += '<div class="nc-time">璁板緱澶嶄範浠婂ぉ鐨勫唴瀹箏</div>';
+      sidebarHTML += '</div>';
+    }
+  }
+
+  document.getElementById('sidebar').innerHTML = sidebarHTML;
+}
+
+function updateBanner() {
+  const now = new Date();
+  const classInfo = getCurrentClassInfo();
+
+  // Status
+  let statusText;
+  if (classInfo.isWeekend) {
+    statusText = '鍛ㄦ湯浼戞伅涓?;
+  } else if (classInfo.currentClass) {
+    const subj = SCHEDULE[classInfo.currentClass.index][dayKeys[classInfo.dayIdx]];
+    statusText = '姝ｅ湪涓婅锛? + subj + '锛? + classInfo.currentClass.period + '锛?;
+  } else if (classInfo.nextClass) {
+    statusText = '璇鹃棿浼戞伅锛屼笅涓€鑺傦細' + classInfo.nextClass.period;
+  } else {
+    statusText = '浠婃棩璇剧▼宸插叏閮ㄧ粨鏉?;
+  }
+  document.getElementById('bannerStatus').textContent = statusText;
+
+  // Countdown
+  const diffHuikao = Math.ceil((EXAM_DATES.huikao - now) / (1000 * 60 * 60 * 24));
+  const diffZhongkao = Math.ceil((EXAM_DATES.zhongkao - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('bannerCountdown').textContent =
+    '浼氳€? + diffHuikao + '澶?| 涓€? + diffZhongkao + '澶?;
+
+  // Tomorrow classes
+  let tomorrowText;
+  if (classInfo.isWeekend) {
+    const mondayIdx = now.getDay() === 0 ? 0 : -1; // Sunday 鈫?Monday, Saturday 鈫?no tomorrow classes
+    if (mondayIdx === 0) {
+      const subjects = SCHEDULE.map(r => r[dayKeys[0]]).join('銆?);
+      tomorrowText = '鍛ㄤ竴璇剧▼锛? + subjects;
+    } else {
+      tomorrowText = '浜彈鍛ㄦ湯锛屽懆涓€瑙?;
+    }
+  } else {
+    const tomorrowDow = now.getDay() + 1;
+    if (tomorrowDow <= 5) {
+      const idx = tomorrowDow - 1;
+      const subjects = SCHEDULE.map(r => r[dayKeys[idx]]).join('銆?);
+      tomorrowText = '鏄庢棩璇剧▼锛? + subjects;
+    } else {
+      tomorrowText = '鏄庢棩鍛ㄦ湯锛屽ソ濂戒紤鎭?;
+    }
+  }
+  document.getElementById('bannerTomorrow').textContent = tomorrowText;
+}
+
+function updateRightPanel() {
+  const classInfo = getCurrentClassInfo();
+
+  // Legend
+  const allSubjects = new Set();
+  SCHEDULE.forEach(r => dayKeys.forEach(k => allSubjects.add(r[k])));
+  const sorted = [...allSubjects].sort();
+  let legendHTML = '';
+  sorted.forEach(s => {
+    if (s === '鉁?) return;
+    legendHTML += '<div class="legend-item"><span class="legend-dot" style="background:' + (COLORS[s]||'#888') + '"></span>' + s + '</div>';
+  });
+  document.getElementById('legendGrid').innerHTML = legendHTML;
+
+  // Timeline
+  let timelineHTML = '';
+  if (classInfo.isWeekend) {
+    timelineHTML = '<li class="timeline-item"><span style="color:#999">鍛ㄦ湯浼戞伅</span></li>';
+  } else {
+    const dayIdx = classInfo.dayIdx;
+    TIME_SLOTS.forEach((slot, i) => {
+      const subject = SCHEDULE[i][dayKeys[dayIdx]];
+      let cls = '';
+      if (classInfo.currentClass && classInfo.currentClass.index === i) cls = ' current';
+      else if (classInfo.nextClass && classInfo.nextClass.index === i) cls = ' next';
+      timelineHTML += '<li class="timeline-item' + cls + '">';
+      timelineHTML += '<span class="timeline-badge" style="background:' + (COLORS[subject]||'#888') + '"></span>';
+      timelineHTML += '<span class="timeline-time">' + slot.start + '-' + slot.end + '</span>';
+      timelineHTML += '<span class="timeline-subject">' + subject + '</span>';
+      timelineHTML += '</li>';
+    });
+  }
+  document.getElementById('timelineList').innerHTML = timelineHTML;
+}
+
+function updateTimer() {
+  const now = new Date();
+  document.getElementById('currentTimeDisplay').textContent =
+    '褰撳墠鏃堕棿锛? + now.toLocaleTimeString('zh-CN', {hour12:false});
+
+  classInfo = getCurrentClassInfo();
+  updateBanner();
+  const breakTimer = document.getElementById('breakTimer');
+  const weekendBanner = document.getElementById('weekendBanner');
+  const countdownText = document.getElementById('countdownText');
+
+  if (classInfo.isWeekend) {
+    breakTimer.style.display = 'none';
+    weekendBanner.style.display = 'block';
+  } else if (classInfo.currentClass) {
+    weekendBanner.style.display = 'none';
+    breakTimer.style.display = 'flex';
+    const remaining = classInfo.currentClass.endMinutes - classInfo.currentMinutes;
+    const min = Math.floor(remaining);
+    const sec = Math.floor((remaining - min) * 60);
+    countdownText.textContent = String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+  } else {
+    weekendBanner.style.display = 'none';
+    breakTimer.style.display = 'none';
+  }
+}
+
+function refreshAll() {
+  updateSidebar();
+  updateTimer();
+  updateBanner();
+  updateRightPanel();
+  drawSchedule();
+}
+
+refreshAll();
+setInterval(refreshAll, 1000);
+window.addEventListener('resize', drawSchedule);
+</script>
+</body>
+</html>
