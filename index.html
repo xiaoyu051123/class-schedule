@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>初二一班实时课程表</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 16px;
+}
+.container {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 1400px;
+  align-items: flex-start;
+}
+.sidebar {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  width: 230px;
+  min-width: 230px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.sidebar .date-box {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 20px 12px;
+  margin-bottom: 16px;
+}
+.sidebar .month {
+  font-size: 15px;
+  opacity: 0.9;
+  letter-spacing: 2px;
+}
+.sidebar .day {
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 4px 0;
+}
+.sidebar .weekday {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.95;
+}
+.sidebar .info-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px 12px;
+  margin-bottom: 12px;
+}
+.sidebar .info-label {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.sidebar .info-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+.sidebar .encourage {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.sidebar .next-class-preview {
+  background: #fffde7;
+  border: 2px solid #ffe082;
+  border-radius: 12px;
+  padding: 14px 10px;
+  margin-top: 12px;
+}
+.sidebar .next-class-preview .nc-label {
+  font-size: 12px;
+  color: #f57f17;
+  margin-bottom: 4px;
+}
+.sidebar .next-class-preview .nc-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e65100;
+}
+.sidebar .next-class-preview .nc-time {
+  font-size: 13px;
+  color: #bf360c;
+  margin-top: 2px;
+}
+.sidebar .weekend-msg {
+  background: #e8f5e9;
+  border-radius: 12px;
+  padding: 24px 14px;
+  color: #2e7d32;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+.main {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.main h1 {
+  font-size: 24px;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.main .subtitle {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 16px;
+}
+.right-panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  width: 210px;
+  min-width: 210px;
+  flex-shrink: 0;
+}
+.right-panel h3 {
+  font-size: 15px;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0f0f0;
+}
+.right-panel .legend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 8px;
+  margin-bottom: 14px;
+}
+.right-panel .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555;
+}
+.right-panel .legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.right-panel .timeline-list {
+  list-style: none;
+  max-height: 380px;
+  overflow-y: auto;
+}
+.right-panel .timeline-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 12px;
+}
+.right-panel .timeline-item:last-child { border-bottom: none; }
+.right-panel .timeline-time {
+  color: #999;
+  white-space: nowrap;
+  min-width: 64px;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Courier New', monospace;
+}
+.right-panel .timeline-subject {
+  color: #333;
+  font-weight: 500;
+}
+.right-panel .timeline-badge {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.right-panel .timeline-item.current {
+  background: #e3f2fd;
+  border-radius: 6px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+}
+.right-panel .timeline-item.next {
+  background: #fffde7;
+  border-radius: 6px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+}
+@media (max-width: 1350px) {
+  .right-panel { display: none; }
+}
+.info-banner {
+  background: linear-gradient(135deg, #5B4FCF 0%, #7C6FE0 50%, #6A5ACD 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 14px 20px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  flex-wrap: wrap;
+  line-height: 1.5;
+}
+.info-banner .banner-dot {
+  width: 8px;
+  height: 8px;
+  background: #D3D3D3;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.info-banner .banner-sep {
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
+}
+.info-banner .banner-status {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.info-banner .banner-countdown {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.info-banner .banner-tomorrow {
+  flex: 1 1 auto;
+  min-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.break-timer {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 600;
+}
+.break-timer .countdown {
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Courier New', monospace;
+}
+.weekend-banner {
+  background: linear-gradient(135deg, #a8e6cf 0%, #88d8b0 100%);
+  color: #1b5e20;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 4px;
+}
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    min-width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+    justify-content: center;
+  }
+  .sidebar .date-box {
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .sidebar .date-box .month { font-size: 13px; }
+  .sidebar .date-box .day { font-size: 30px; }
+  .sidebar .date-box .weekday { font-size: 14px; }
+  .sidebar .info-card {
+    flex: 1 1 auto;
+    min-width: 100px;
+    margin-bottom: 0;
+  }
+  .sidebar .next-class-preview {
+    flex: 1 1 100%;
+    margin-top: 0;
+  }
+  .main { padding: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+    <h1>📅 初二一班实时课程表</h1>
+    <div class="subtitle" id="currentTimeDisplay"></div>
+    <div class="info-banner" id="infoBanner">
+      <span class="banner-dot"></span>
+      <span class="banner-status" id="bannerStatus"></span>
+      <span class="banner-sep">|</span>
+      <span class="banner-countdown" id="bannerCountdown"></span>
+      <span class="banner-sep">|</span>
+      <span class="banner-tomorrow" id="bannerTomorrow"></span>
+    </div>
+    <div class="break-timer" id="breakTimer" style="display:none;">
+      <span>⏱ 距离下课还有</span>
+      <span class="countdown" id="countdownText">--:--</span>
+    </div>
+    <div class="weekend-banner" id="weekendBanner" style="display:none;">🌿 好好休息，周末愉快！</div>
+    <canvas id="scheduleCanvas"></canvas>
+  </main>
+  <aside class="right-panel" id="rightPanel">
+    <h3>科目图例</h3>
+    <div class="legend-grid" id="legendGrid"></div>
+    <h3>今日课程</h3>
+    <ul class="timeline-list" id="timelineList"></ul>
+  </aside>
+</div>
+
+<script>
+const SCHEDULE = [
+  { period:'早读',   mon:'校会',     tue:'英语',     wed:'生物',     thu:'语文',     fri:'跑操' },
+  { period:'第1节',  mon:'专题教育', tue:'英语',     wed:'生物',     thu:'语文',     fri:'数学' },
+  { period:'第2节',  mon:'历史',     tue:'道德与法治', wed:'语文',    thu:'英语',     fri:'语文' },
+  { period:'第3节',  mon:'音乐',     tue:'物理',     wed:'道德与法治', thu:'地理',    fri:'生物' },
+  { period:'第4节',  mon:'体育',     tue:'生物',     wed:'地理',     thu:'信息技术', fri:'历史' },
+  { period:'第5节',  mon:'语文',     tue:'体育',     wed:'英语',     thu:'数学',     fri:'物理' },
+  { period:'第6节',  mon:'数学',     tue:'美术',     wed:'体育',     thu:'数学',     fri:'心理' },
+  { period:'第7节',  mon:'地理',     tue:'语文',     wed:'数学',     thu:'物理',     fri:'英语' },
+  { period:'第8节',  mon:'英语',     tue:'数学',     wed:'物理',     thu:'生物',     fri:'地理' },
+  { period:'生地背书', mon:'✓',      tue:'✓',       wed:'✓',      thu:'✓',       fri:'✓' },
+];
+
+const TIME_SLOTS = [
+  { period:'早读',   start:'07:30', end:'07:50' },
+  { period:'第1节',  start:'08:00', end:'08:40' },
+  { period:'第2节',  start:'08:55', end:'09:35' },
+  { period:'第3节',  start:'10:05', end:'10:45' },
+  { period:'第4节',  start:'11:00', end:'11:40' },
+  { period:'第5节',  start:'14:40', end:'15:20' },
+  { period:'第6节',  start:'15:35', end:'16:15' },
+  { period:'第7节',  start:'16:30', end:'17:10' },
+  { period:'第8节',  start:'17:25', end:'18:05' },
+  { period:'生地背书', start:'18:50', end:'19:30' },
+];
+
+const EXAM_DATES = {
+  huikao: new Date('2026-06-20'),
+  zhongkao: new Date('2027-06-20'),
+};
+
+const COLORS = {
+  '校会':'#9B59B6','英语':'#3498DB','生物':'#27AE60','语文':'#E74C3C','跑操':'#E67E22',
+  '专题教育':'#8E44AD','历史':'#A0522D','道德与法治':'#C0392B','音乐':'#FF69B4',
+  '物理':'#1ABC9C','地理':'#D4A574','体育':'#2ECC71','信息技术':'#2980B9',
+  '数学':'#2C3E50','美术':'#E91E63','心理':'#FF6F91','✓':'#16A085'
+};
+
+const COLOR_BG = {
+  '校会':'#f3e5f5','英语':'#e3f2fd','生物':'#e8f5e9','语文':'#fdecea','跑操':'#fff3e0',
+  '专题教育':'#f3e5f5','历史':'#efebe9','道德与法治':'#fdecea','音乐':'#fce4ec',
+  '物理':'#e0f7fa','地理':'#fff8e1','体育':'#e8f5e9','信息技术':'#e3f2fd',
+  '数学':'#eceff1','美术':'#fce4ec','心理':'#fce4ec','✓':'#e0f2f1'
+};
+
+const days = ['星期一','星期二','星期三','星期四','星期五'];
+const dayKeys = ['mon','tue','wed','thu','fri'];
+
+function timeToMinutes(t) {
+  const [h,m] = t.split(':').map(Number);
+  return h*60 + m;
+}
+
+function getCurrentClassInfo() {
+  const now = new Date();
+  const dow = now.getDay(); // 0=Sun, 1=Mon, ...
+  const currentMinutes = now.getHours()*60 + now.getMinutes();
+  if (dow === 0 || dow === 6) return { isWeekend: true, dow };
+  const dayIdx = dow - 1; // 0=Mon
+  let currentClass = null, nextClass = null;
+  for (let i = 0; i < TIME_SLOTS.length; i++) {
+    const s = timeToMinutes(TIME_SLOTS[i].start);
+    const e = timeToMinutes(TIME_SLOTS[i].end);
+    if (currentMinutes >= s && currentMinutes < e) {
+      currentClass = { ...TIME_SLOTS[i], index: i, endMinutes: e };
+      if (i + 1 < TIME_SLOTS.length) {
+        nextClass = { ...TIME_SLOTS[i+1], index: i+1 };
+      }
+      return { isWeekend: false, dow, dayIdx, currentClass, nextClass, currentMinutes };
+    }
+  }
+  for (let i = 0; i < TIME_SLOTS.length; i++) {
+    const s = timeToMinutes(TIME_SLOTS[i].start);
+    if (currentMinutes < s) {
+      nextClass = { ...TIME_SLOTS[i], index: i };
+      return { isWeekend: false, dow, dayIdx, currentClass: null, nextClass, currentMinutes };
+    }
+  }
+  return { isWeekend: false, dow, dayIdx, currentClass: null, nextClass: null, currentMinutes };
+}
+
+let classInfo = getCurrentClassInfo();
+
+function drawSchedule() {
+  const canvas = document.getElementById('scheduleCanvas');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  const rows = SCHEDULE.length + 1; // header + data
+  const cols = 6; // period + 5 days
+
+  const cellW = 150;
+  const cellH = 50;
+  const periodW = 95;
+  const headerH = 58;
+  const totalW = periodW + cellW * 5 + 8 * 1;
+  const totalH = headerH + cellH * (rows - 1) + (rows) * 1;
+
+  canvas.width = totalW * dpr;
+  canvas.height = totalH * dpr;
+  canvas.style.width = totalW + 'px';
+  canvas.style.height = totalH + 'px';
+  ctx.scale(dpr, dpr);
+
+  ctx.clearRect(0, 0, totalW, totalH);
+
+  // Draw header row
+  ctx.fillStyle = '#1a1a2e';
+  roundRect(ctx, 0, 0, periodW, headerH, 8, true, false);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 17px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('课时', periodW/2, headerH/2);
+
+  for (let c = 0; c < 5; c++) {
+    const x = periodW + 1 + c * (cellW + 1);
+    ctx.fillStyle = '#1a1a2e';
+    roundRect(ctx, x, 0, cellW, headerH, 8, true, false);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 16px "PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText(days[c], x + cellW/2, headerH/2);
+  }
+
+  // Draw data rows
+  for (let r = 0; r < SCHEDULE.length; r++) {
+    const y = headerH + 1 + r * (cellH + 1);
+    const isCurrentRow = classInfo.currentClass && classInfo.currentClass.index === r && !classInfo.isWeekend;
+    const isNextRow = classInfo.nextClass && classInfo.nextClass.index === r && !classInfo.isWeekend && !isCurrentRow;
+    const dayIdx = classInfo.isWeekend ? -1 : classInfo.dayIdx;
+
+    // Period column
+    let periodBg = '#f5f5f5';
+    let periodTextColor = '#555';
+    if (isCurrentRow) { periodBg = '#e3f2fd'; periodTextColor = '#1565c0'; }
+    else if (isNextRow) { periodBg = '#fffde7'; periodTextColor = '#f57f17'; }
+
+    ctx.fillStyle = periodBg;
+    roundRect(ctx, 0, y, periodW, cellH, 6, true, false);
+    ctx.fillStyle = periodTextColor;
+    ctx.font = 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif';
+    ctx.fillText(SCHEDULE[r].period, periodW/2, y + cellH/2 - 2);
+
+    // Draw time range in small font below period name
+    if (TIME_SLOTS[r]) {
+      ctx.fillStyle = periodTextColor;
+      ctx.globalAlpha = 0.6;
+      ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.fillText(TIME_SLOTS[r].start + '-' + TIME_SLOTS[r].end, periodW/2, y + cellH/2 + 16);
+      ctx.globalAlpha = 1;
+    }
+
+    // Day columns
+    for (let c = 0; c < 5; c++) {
+      const x = periodW + 1 + c * (cellW + 1);
+      const subject = SCHEDULE[r][dayKeys[c]];
+      const color = COLORS[subject] || '#888';
+      const bg = COLOR_BG[subject] || '#fafafa';
+
+      // Determine if this cell should be highlighted
+      let cellBg = bg;
+      let borderColor = null;
+      let textColor = '#333';
+
+      if (isCurrentRow && dayIdx === c) {
+        cellBg = '#bbdefb';
+        borderColor = '#1565c0';
+        textColor = '#0d47a1';
+      } else if (isNextRow && dayIdx === c) {
+        cellBg = '#fff9c4';
+        borderColor = '#f9a825';
+        textColor = '#e65100';
+      }
+
+      ctx.fillStyle = cellBg;
+      roundRect(ctx, x, y, cellW, cellH, 6, true, false);
+
+      if (borderColor) {
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 2.5;
+        roundRect(ctx, x, y, cellW, cellH, 6, false, true);
+        ctx.lineWidth = 1;
+      }
+
+      // Left color bar
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y + 4, 4, cellH - 8);
+
+      ctx.fillStyle = textColor;
+      ctx.font = (isCurrentRow && dayIdx === c) ? 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif' : '14px "PingFang SC","Microsoft YaHei",sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(subject, x + cellW/2 + 2, y + cellH/2);
+    }
+  }
+
+  // Legend
+  const legendY = totalH + 10;
+  ctx.textAlign = 'left';
+  ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+  const legendItems = [
+    { color:'#bbdefb', border:'#1565c0', label:'正在上课' },
+    { color:'#fff9c4', border:'#f9a825', label:'下一节课' },
+  ];
+  legendItems.forEach((item, i) => {
+    const lx = periodW + i * 160;
+    ctx.fillStyle = item.color;
+    ctx.fillRect(lx, legendY, 16, 16);
+    ctx.strokeStyle = item.border;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(lx, legendY, 16, 16);
+    ctx.lineWidth = 1;
+    ctx.fillStyle = '#555';
+    ctx.fillText(item.label, lx + 22, legendY + 12);
+  });
+}
+
+function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.arcTo(x+w, y, x+w, y+r, r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.arcTo(x+w, y+h, x+w-r, y+h, r);
+  ctx.lineTo(x+r, y+h);
+  ctx.arcTo(x, y+h, x, y+h-r, r);
+  ctx.lineTo(x, y+r);
+  ctx.arcTo(x, y, x+r, y, r);
+  ctx.closePath();
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
+}
+
+function updateSidebar() {
+  const now = new Date();
+  const months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  const weekdays = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  const month = months[now.getMonth()];
+  const day = now.getDate();
+  const weekday = weekdays[now.getDay()];
+
+  classInfo = getCurrentClassInfo();
+  const dayIdx = classInfo.isWeekend ? -1 : classInfo.dayIdx;
+
+  let totalClasses = 0;
+  if (!classInfo.isWeekend) {
+    totalClasses = SCHEDULE.length;
+  }
+
+  const encourageMessages = [
+    '💪 又是元气满满的一天！',
+    '📚 知识改变命运，加油！',
+    '🌟 今天的努力是明天的底气！',
+    '🎯 专注每一节课，收获每一天！',
+    '🔥 保持热爱，奔赴山海！',
+    '✨ 初二一班，永远最棒！',
+    '🏆 日积月累，水滴石穿！',
+    '🌈 每一步都算数，加油少年！',
+  ];
+  const encourage = encourageMessages[now.getDate() % encourageMessages.length];
+
+  let sidebarHTML = '';
+  sidebarHTML += '<div class="date-box">';
+  sidebarHTML += '<div class="month">' + month + '</div>';
+  sidebarHTML += '<div class="day">' + day + '</div>';
+  sidebarHTML += '<div class="weekday">' + weekday + '</div>';
+  sidebarHTML += '</div>';
+
+  if (classInfo.isWeekend) {
+    sidebarHTML += '<div class="weekend-msg">🌿 好好休息<br>周末愉快</div>';
+  } else {
+    sidebarHTML += '<div class="info-card">';
+    sidebarHTML += '<div class="info-label">今日课程</div>';
+    sidebarHTML += '<div class="info-value">' + totalClasses + ' 节</div>';
+    sidebarHTML += '<div class="encourage">' + encourage + '</div>';
+    sidebarHTML += '</div>';
+
+    // Next class preview
+    if (classInfo.nextClass) {
+      const nextSubject = SCHEDULE[classInfo.nextClass.index][dayKeys[dayIdx]];
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">📌 下一节课预告</div>';
+      sidebarHTML += '<div class="nc-name">' + nextSubject + '</div>';
+      sidebarHTML += '<div class="nc-time">' + classInfo.nextClass.period + ' · ' + classInfo.nextClass.start + '-' + classInfo.nextClass.end + '</div>';
+      sidebarHTML += '</div>';
+    } else if (classInfo.currentClass) {
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">📌 今日最后一节课</div>';
+      sidebarHTML += '<div class="nc-name">认真上课中</div>';
+      sidebarHTML += '<div class="nc-time">放学后好好休息~</div>';
+      sidebarHTML += '</div>';
+    } else {
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">📌 今日课程已结束</div>';
+      sidebarHTML += '<div class="nc-name">辛苦了！</div>';
+      sidebarHTML += '<div class="nc-time">记得复习今天的内容~</div>';
+      sidebarHTML += '</div>';
+    }
+  }
+
+  document.getElementById('sidebar').innerHTML = sidebarHTML;
+}
+
+function updateBanner() {
+  const now = new Date();
+  const classInfo = getCurrentClassInfo();
+
+  // Status
+  let statusText;
+  if (classInfo.isWeekend) {
+    statusText = '周末休息中';
+  } else if (classInfo.currentClass) {
+    const subj = SCHEDULE[classInfo.currentClass.index][dayKeys[classInfo.dayIdx]];
+    statusText = '正在上课：' + subj + '（' + classInfo.currentClass.period + '）';
+  } else if (classInfo.nextClass) {
+    statusText = '课间休息，下一节：' + classInfo.nextClass.period;
+  } else {
+    statusText = '今日课程已全部结束';
+  }
+  document.getElementById('bannerStatus').textContent = statusText;
+
+  // Countdown
+  const diffHuikao = Math.ceil((EXAM_DATES.huikao - now) / (1000 * 60 * 60 * 24));
+  const diffZhongkao = Math.ceil((EXAM_DATES.zhongkao - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('bannerCountdown').textContent =
+    '会考' + diffHuikao + '天 | 中考' + diffZhongkao + '天';
+
+  // Tomorrow classes
+  let tomorrowText;
+  if (classInfo.isWeekend) {
+    const mondayIdx = now.getDay() === 0 ? 0 : -1; // Sunday → Monday, Saturday → no tomorrow classes
+    if (mondayIdx === 0) {
+      const subjects = SCHEDULE.map(r => r[dayKeys[0]]).join('、');
+      tomorrowText = '周一课程：' + subjects;
+    } else {
+      tomorrowText = '享受周末，周一见';
+    }
+  } else {
+    const tomorrowDow = now.getDay() + 1;
+    if (tomorrowDow <= 5) {
+      const idx = tomorrowDow - 1;
+      const subjects = SCHEDULE.map(r => r[dayKeys[idx]]).join('、');
+      tomorrowText = '明日课程：' + subjects;
+    } else {
+      tomorrowText = '明日周末，好好休息';
+    }
+  }
+  document.getElementById('bannerTomorrow').textContent = tomorrowText;
+}
+
+function updateRightPanel() {
+  const classInfo = getCurrentClassInfo();
+
+  // Legend
+  const allSubjects = new Set();
+  SCHEDULE.forEach(r => dayKeys.forEach(k => allSubjects.add(r[k])));
+  const sorted = [...allSubjects].sort();
+  let legendHTML = '';
+  sorted.forEach(s => {
+    if (s === '✓') return;
+    legendHTML += '<div class="legend-item"><span class="legend-dot" style="background:' + (COLORS[s]||'#888') + '"></span>' + s + '</div>';
+  });
+  document.getElementById('legendGrid').innerHTML = legendHTML;
+
+  // Timeline
+  let timelineHTML = '';
+  if (classInfo.isWeekend) {
+    timelineHTML = '<li class="timeline-item"><span style="color:#999">周末休息</span></li>';
+  } else {
+    const dayIdx = classInfo.dayIdx;
+    TIME_SLOTS.forEach((slot, i) => {
+      const subject = SCHEDULE[i][dayKeys[dayIdx]];
+      let cls = '';
+      if (classInfo.currentClass && classInfo.currentClass.index === i) cls = ' current';
+      else if (classInfo.nextClass && classInfo.nextClass.index === i) cls = ' next';
+      timelineHTML += '<li class="timeline-item' + cls + '">';
+      timelineHTML += '<span class="timeline-badge" style="background:' + (COLORS[subject]||'#888') + '"></span>';
+      timelineHTML += '<span class="timeline-time">' + slot.start + '-' + slot.end + '</span>';
+      timelineHTML += '<span class="timeline-subject">' + subject + '</span>';
+      timelineHTML += '</li>';
+    });
+  }
+  document.getElementById('timelineList').innerHTML = timelineHTML;
+}
+
+function updateTimer() {
+  const now = new Date();
+  document.getElementById('currentTimeDisplay').textContent =
+    '当前时间：' + now.toLocaleTimeString('zh-CN', {hour12:false});
+
+  classInfo = getCurrentClassInfo();
+  updateBanner();
+  const breakTimer = document.getElementById('breakTimer');
+  const weekendBanner = document.getElementById('weekendBanner');
+  const countdownText = document.getElementById('countdownText');
+
+  if (classInfo.isWeekend) {
+    breakTimer.style.display = 'none';
+    weekendBanner.style.display = 'block';
+  } else if (classInfo.currentClass) {
+    weekendBanner.style.display = 'none';
+    breakTimer.style.display = 'flex';
+    const remaining = classInfo.currentClass.endMinutes - classInfo.currentMinutes;
+    const min = Math.floor(remaining);
+    const sec = Math.floor((remaining - min) * 60);
+    countdownText.textContent = String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+  } else {
+    weekendBanner.style.display = 'none';
+    breakTimer.style.display = 'none';
+  }
+}
+
+function refreshAll() {
+  updateSidebar();
+  updateTimer();
+  updateBanner();
+  updateRightPanel();
+  drawSchedule();
+}
+
+refreshAll();
+setInterval(refreshAll, 1000);
+window.addEventListener('resize', drawSchedule);
+</script>
+</body>
+</html>
