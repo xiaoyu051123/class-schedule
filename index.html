@@ -416,12 +416,12 @@ const TIME_SLOTS = [
 ];
 
 const EXAM_DATES = {
-  huikao: new Date('2026-06-20'),
+  huikao: new Date('2026-06-27'),
   zhongkao: new Date('2027-06-20'),
 };
 
 const EXAM_TOTAL = {
-  huikao: Math.ceil((new Date('2026-06-20') - new Date('2025-09-01')) / (1000 * 60 * 60 * 24)),
+  huikao: Math.ceil((new Date('2026-06-27') - new Date('2025-09-01')) / (1000 * 60 * 60 * 24)),
   zhongkao: Math.ceil((new Date('2027-06-20') - new Date('2025-09-01')) / (1000 * 60 * 60 * 24)),
 };
 
@@ -628,20 +628,27 @@ function updateExamProgress() {
   const now = new Date();
   const huikaoDiff = Math.ceil((EXAM_DATES.huikao - now) / (1000 * 60 * 60 * 24));
   const zhongkaoDiff = Math.ceil((EXAM_DATES.zhongkao - now) / (1000 * 60 * 60 * 24));
-  const hkPct = Math.max(0, Math.min(100, ((EXAM_TOTAL.huikao - huikaoDiff) / EXAM_TOTAL.huikao) * 100));
-  const zkPct = Math.max(0, Math.min(100, ((EXAM_TOTAL.zhongkao - zhongkaoDiff) / EXAM_TOTAL.zhongkao) * 100));
-
-  document.getElementById('huikaoDays').textContent = huikaoDiff > 0 ? huikaoDiff + ' 天' : '已开考';
-  document.getElementById('zhongkaoDays').textContent = zhongkaoDiff + ' 天';
-  document.getElementById('huikaoBar').style.width = hkPct + '%';
-  document.getElementById('zhongkaoBar').style.width = zkPct + '%';
 
   const hkCard = document.getElementById('examHuikao');
   const zkCard = document.getElementById('examZhongkao');
-  hkCard.classList.remove('urgent-30', 'urgent-7');
+
+  // Auto-hide 会考 card after date passes
+  if (huikaoDiff <= 0) {
+    hkCard.style.display = 'none';
+  } else {
+    hkCard.style.display = '';
+    const hkPct = Math.max(0, Math.min(100, ((EXAM_TOTAL.huikao - huikaoDiff) / EXAM_TOTAL.huikao) * 100));
+    document.getElementById('huikaoDays').textContent = huikaoDiff + ' 天';
+    document.getElementById('huikaoBar').style.width = hkPct + '%';
+    hkCard.classList.remove('urgent-30', 'urgent-7');
+    if (huikaoDiff <= 7) hkCard.classList.add('urgent-7');
+    else if (huikaoDiff <= 30) hkCard.classList.add('urgent-30');
+  }
+
+  const zkPct = Math.max(0, Math.min(100, ((EXAM_TOTAL.zhongkao - zhongkaoDiff) / EXAM_TOTAL.zhongkao) * 100));
+  document.getElementById('zhongkaoDays').textContent = zhongkaoDiff + ' 天';
+  document.getElementById('zhongkaoBar').style.width = zkPct + '%';
   zkCard.classList.remove('urgent-30', 'urgent-7');
-  if (huikaoDiff <= 7) hkCard.classList.add('urgent-7');
-  else if (huikaoDiff <= 30) hkCard.classList.add('urgent-30');
   if (zhongkaoDiff <= 7) zkCard.classList.add('urgent-7');
   else if (zhongkaoDiff <= 30) zkCard.classList.add('urgent-30');
 }
@@ -747,7 +754,11 @@ function fmtTime(sec) {
   return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
 }
 
+let loadRetry = 0;
+const MAX_RETRY = 3;
+
 function loadSong(idx) {
+  loadRetry = 0;
   currentIdx = ((idx % playlist.length) + playlist.length) % playlist.length;
   const s = playlist[currentIdx];
   audio.src = s.src;
@@ -847,6 +858,31 @@ audio.addEventListener('ended', () => {
     btnPlay.textContent = '▶';
     progressFill.style.width = '0%';
   }
+});
+
+audio.addEventListener('error', () => {
+  loadRetry++;
+  if (loadRetry <= MAX_RETRY) {
+    songNameEl.textContent = '加载失败，重试中(' + loadRetry + '/' + MAX_RETRY + ')...';
+    setTimeout(() => {
+      const s = playlist[currentIdx];
+      audio.src = s.src + '?r=' + Date.now();
+      audio.load();
+      if (!audio.paused) audio.play();
+    }, 800);
+  } else {
+    songNameEl.textContent = '⚠ ' + playlist[currentIdx].title + ' - 加载失败，请重试';
+    btnPlay.textContent = '▶';
+    progressFill.style.width = '0%';
+  }
+});
+
+audio.addEventListener('loadstart', () => {
+  songNameEl.textContent = playlist[currentIdx].title + ' 加载中...';
+});
+
+audio.addEventListener('canplay', () => {
+  songNameEl.textContent = playlist[currentIdx].title;
 });
 
 // init player
