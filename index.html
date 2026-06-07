@@ -725,9 +725,11 @@ function refreshAll() {
 }
 
 // --- Music Player ---
+const BASE = 'https://raw.githubusercontent.com/xiaoyu051123/class-schedule/main/';
+
 const playlist = [
-  { title: '骄傲的少年', src: 'bange.mp3' },
-  { title: '不完美小孩', src: 'bange2.mp3' }
+  { title: '骄傲的少年', src: BASE + 'bange.mp3' },
+  { title: '不完美小孩', src: BASE + 'bange2.mp3' }
 ];
 
 const audio = document.getElementById('audioPlayer');
@@ -754,35 +756,14 @@ function fmtTime(sec) {
   return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
 }
 
-let loadRetry = 0;
-const MAX_RETRY = 3;
-
-const blobCache = {};
-
-async function loadSong(idx) {
-  loadRetry = 0;
+function loadSong(idx) {
   currentIdx = ((idx % playlist.length) + playlist.length) % playlist.length;
   const s = playlist[currentIdx];
+  audio.src = s.src;
   songNameEl.textContent = s.title;
+  audio.load();
   renderPlaylist();
-  btnPlay.textContent = '▶';
-
-  if (blobCache[s.src]) {
-    audio.src = blobCache[s.src];
-    return;
-  }
-
-  songNameEl.textContent = s.title + ' 加载中...';
-  try {
-    const resp = await fetch(s.src);
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const blob = await resp.blob();
-    const blobUrl = URL.createObjectURL(blob);
-    blobCache[s.src] = blobUrl;
-    audio.src = blobUrl;
-    songNameEl.textContent = s.title;
-  } catch (e) {
-    songNameEl.textContent = '⚠ ' + s.title + ' - 加载失败，点击重试';
+  if (audio.paused) {
     btnPlay.textContent = '▶';
   }
 }
@@ -795,13 +776,9 @@ function renderPlaylist() {
   playlistEl.innerHTML = html;
 }
 
-async function playPause() {
-  if (!audio.src || audio.src === window.location.href) { await loadSong(0); }
+function playPause() {
+  if (!audio.src || audio.src === window.location.href) { loadSong(0); }
   if (audio.paused) {
-    if (!audio.src.startsWith('blob:') && !blobCache[playlist[currentIdx].src]) {
-      await loadSong(currentIdx);
-      if (!audio.src.startsWith('blob:')) return;
-    }
     audio.play();
     btnPlay.textContent = '⏸';
   } else {
@@ -810,16 +787,16 @@ async function playPause() {
   }
 }
 
-async function playNext() {
+function playNext() {
   const next = (currentIdx + 1) % playlist.length;
-  await loadSong(next);
+  loadSong(next);
   audio.play();
   btnPlay.textContent = '⏸';
 }
 
-async function playPrev() {
+function playPrev() {
   const prev = (currentIdx - 1 + playlist.length) % playlist.length;
-  await loadSong(prev);
+  loadSong(prev);
   audio.play();
   btnPlay.textContent = '⏸';
 }
@@ -840,11 +817,11 @@ btnPlaylist.addEventListener('click', () => {
   playlistEl.style.display = vis ? 'none' : 'block';
 });
 
-playlistEl.addEventListener('click', async (e) => {
+playlistEl.addEventListener('click', (e) => {
   const item = e.target.closest('.playlist-item');
   if (!item) return;
   const idx = parseInt(item.dataset.idx);
-  await loadSong(idx);
+  loadSong(idx);
   audio.play();
   btnPlay.textContent = '⏸';
 });
