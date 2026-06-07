@@ -6,86 +6,15 @@
 <title>初二一班实时课程表</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📅</text></svg>">
 <style>
-:root {
-  --bg: #f0f2f5;
-  --card-bg: #fff;
-  --text: #1a1a2e;
-  --text-secondary: #999;
-  --text-sub: #666;
-  --text-light: #888;
-  --border-light: #f0f0f0;
-  --border-subtle: #f5f5f5;
-  --card-dim: #f8f9fa;
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
-  --canvas-header: #1a1a2e;
-  --canvas-period-bg: #f5f5f5;
-  --canvas-period-text: #555;
-  --info-banner-bg: linear-gradient(135deg, #5B4FCF 0%, #7C6FE0 50%, #6A5ACD 100%);
-  --sidebar-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --sidebar-next-bg: #fffde7;
-  --sidebar-next-border: #ffe082;
-  --sidebar-weekend-bg: #e8f5e9;
-  --break-timer-bg: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-  --weekend-banner-bg: linear-gradient(135deg, #a8e6cf 0%, #88d8b0 100%);
-  --weekend-banner-text: #1b5e20;
-  --exam-card-bg: #fff;
-  --exam-card-border: #e8e8e8;
-  --exam-progress-track: #e0e0e0;
-}
-body.theme-dark {
-  --bg: #1a1a2e; --card-bg: #252540; --text: #e0e0e0; --text-secondary: #999;
-  --text-sub: #aaa; --text-light: #777; --border-light: #333355; --border-subtle: #2a2a40;
-  --card-dim: #1e1e35; --shadow: 0 2px 12px rgba(0,0,0,0.4);
-  --canvas-header: #2d2d50; --canvas-period-bg: #2a2a45; --canvas-period-text: #bbb;
-  --info-banner-bg: linear-gradient(135deg, #3d3590 0%, #4a3fa0 50%, #3d3590 100%);
-  --sidebar-gradient: linear-gradient(135deg, #4a3fa0 0%, #5a4fb0 100%);
-  --sidebar-next-bg: #3d3520; --sidebar-next-border: #5a4a20; --sidebar-weekend-bg: #1e352a;
-  --break-timer-bg: linear-gradient(135deg, #2a6a40 0%, #1e8a50 100%);
-  --weekend-banner-bg: linear-gradient(135deg, #1e4a30 0%, #1a5a2a 100%);
-  --weekend-banner-text: #a0e0b0;
-  --exam-card-bg: #252540; --exam-card-border: #333355;
-  --exam-progress-track: #3d3d5c;
-}
-body.theme-green {
-  --bg: #e8f0e8; --card-bg: #f5faf5; --text: #2d3a2d; --text-secondary: #7a8a7a;
-  --text-sub: #5a6a5a; --text-light: #8a9a8a; --border-light: #d0e0d0; --border-subtle: #e0ede0;
-  --card-dim: #edf5ed; --shadow: 0 2px 12px rgba(0,0,0,0.06);
-  --canvas-header: #3a5a3a; --canvas-period-bg: #e8f0e8; --canvas-period-text: #4a6a4a;
-  --info-banner-bg: linear-gradient(135deg, #4a8a4a 0%, #5a9a5a 50%, #4a8a4a 100%);
-  --sidebar-gradient: linear-gradient(135deg, #5a9a5a 0%, #3a7a3a 100%);
-  --sidebar-next-bg: #f5fae8; --sidebar-next-border: #d0e0a0; --sidebar-weekend-bg: #d8f0d8;
-  --break-timer-bg: linear-gradient(135deg, #5ab85a 0%, #3ad85a 100%);
-  --weekend-banner-bg: linear-gradient(135deg, #b0d8b0 0%, #90c890 100%);
-  --weekend-banner-text: #2d5a2d;
-  --exam-card-bg: #f5faf5; --exam-card-border: #d0e0d0;
-  --exam-progress-track: #d0e0d0;
-}
-body.theme-warm {
-  --bg: #faf5f0; --card-bg: #fffaf5; --text: #4a3020; --text-secondary: #a09080;
-  --text-sub: #7a6050; --text-light: #b0a090; --border-light: #e8d8c8; --border-subtle: #f0e8d8;
-  --card-dim: #f8f0e8; --shadow: 0 2px 12px rgba(0,0,0,0.06);
-  --canvas-header: #6a4a30; --canvas-period-bg: #f5ede0; --canvas-period-text: #7a5a40;
-  --info-banner-bg: linear-gradient(135deg, #d4843a 0%, #e8945a 50%, #d4843a 100%);
-  --sidebar-gradient: linear-gradient(135deg, #e8945a 0%, #c8743a 100%);
-  --sidebar-next-bg: #fff8e8; --sidebar-next-border: #e8c880; --sidebar-weekend-bg: #f8ead0;
-  --break-timer-bg: linear-gradient(135deg, #e8b84a 0%, #d8c85a 100%);
-  --weekend-banner-bg: linear-gradient(135deg, #e8d8b0 0%, #d8c890 100%);
-  --weekend-banner-text: #5a4a20;
-  --exam-card-bg: #fffaf5; --exam-card-border: #e8d8c8;
-  --exam-progress-track: #e8d8c8;
-}
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #f0f2f5;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 16px;
-  transition: background 0.3s, color 0.3s;
 }
 .container {
   display: flex;
@@ -95,167 +24,234 @@ body {
   align-items: flex-start;
 }
 .sidebar {
-  background: var(--card-bg);
+  background: #fff;
   border-radius: 16px;
   padding: 24px 16px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   width: 230px;
   min-width: 230px;
   text-align: center;
   flex-shrink: 0;
-  transition: background 0.3s;
 }
 .sidebar .date-box {
-  background: var(--sidebar-gradient);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
   border-radius: 14px;
   padding: 20px 12px;
   margin-bottom: 16px;
 }
-.sidebar .month { font-size: 15px; opacity: 0.9; letter-spacing: 2px; }
-.sidebar .day { font-size: 60px; font-weight: 700; line-height: 1; margin: 4px 0; }
-.sidebar .weekday { font-size: 18px; font-weight: 500; opacity: 0.95; }
+.sidebar .month {
+  font-size: 15px;
+  opacity: 0.9;
+  letter-spacing: 2px;
+}
+.sidebar .day {
+  font-size: 60px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 4px 0;
+}
+.sidebar .weekday {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.95;
+}
 .sidebar .info-card {
-  background: var(--card-dim);
+  background: #f8f9fa;
   border-radius: 12px;
   padding: 16px 12px;
   margin-bottom: 12px;
-  transition: background 0.3s;
 }
-.sidebar .info-label { font-size: 13px; color: var(--text-light); margin-bottom: 4px; }
-.sidebar .info-value { font-size: 32px; font-weight: 700; color: var(--text); }
-.sidebar .encourage { font-size: 14px; color: var(--text-sub); margin-top: 8px; line-height: 1.5; }
+.sidebar .info-label {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.sidebar .info-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+}
+.sidebar .encourage {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.5;
+}
 .sidebar .next-class-preview {
-  background: var(--sidebar-next-bg);
-  border: 2px solid var(--sidebar-next-border);
+  background: #fffde7;
+  border: 2px solid #ffe082;
   border-radius: 12px;
   padding: 14px 10px;
   margin-top: 12px;
-  transition: background 0.3s, border-color 0.3s;
 }
-.sidebar .next-class-preview .nc-label { font-size: 12px; color: #f57f17; margin-bottom: 4px; }
-.sidebar .next-class-preview .nc-name { font-size: 20px; font-weight: 700; color: #e65100; }
-.sidebar .next-class-preview .nc-time { font-size: 13px; color: #bf360c; margin-top: 2px; }
+.sidebar .next-class-preview .nc-label {
+  font-size: 12px;
+  color: #f57f17;
+  margin-bottom: 4px;
+}
+.sidebar .next-class-preview .nc-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e65100;
+}
+.sidebar .next-class-preview .nc-time {
+  font-size: 13px;
+  color: #bf360c;
+  margin-top: 2px;
+}
 .sidebar .weekend-msg {
-  background: var(--sidebar-weekend-bg);
+  background: #e8f5e9;
   border-radius: 12px;
   padding: 24px 14px;
   color: #2e7d32;
   font-size: 26px;
   font-weight: 700;
   letter-spacing: 3px;
-  transition: background 0.3s;
 }
 .main {
   flex: 1;
   min-width: 0;
-  background: var(--card-bg);
+  background: #fff;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: var(--shadow);
-  transition: background 0.3s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
-.main .header-row {
+.main h1 {
+  font-size: 24px;
+  color: #1a1a2e;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 4px;
 }
-.main h1 { font-size: 24px; color: var(--text); display: flex; align-items: center; gap: 8px; }
-.main .subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
-.theme-switcher { display: flex; gap: 4px; }
-.theme-switcher button {
-  width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent;
-  cursor: pointer; transition: all 0.2s; outline: none;
+.main .subtitle {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 16px;
 }
-.theme-switcher button:hover { transform: scale(1.15); }
-.theme-switcher button.active { border-color: #fff; box-shadow: 0 0 0 2px var(--text); }
-.btn-default { background: linear-gradient(135deg, #667eea, #764ba2); }
-.btn-dark { background: #2d2d44; }
-.btn-green { background: linear-gradient(135deg, #5a9a5a, #3a7a3a); }
-.btn-warm { background: linear-gradient(135deg, #e8945a, #c8743a); }
-
 .right-panel {
-  background: var(--card-bg);
+  background: #fff;
   border-radius: 16px;
   padding: 20px 14px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   width: 210px;
   min-width: 210px;
   flex-shrink: 0;
-  transition: background 0.3s;
 }
 .right-panel h3 {
-  font-size: 15px; color: var(--text); margin-bottom: 10px;
-  padding-bottom: 8px; border-bottom: 2px solid var(--border-light);
+  font-size: 15px;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0f0f0;
 }
-.right-panel .section-divider { border: none; border-top: 1px solid var(--border-light); margin: 14px 0; }
-.right-panel .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; margin-bottom: 10px; }
-.right-panel .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-sub); }
-.right-panel .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-.right-panel .timeline-list { list-style: none; max-height: 260px; overflow-y: auto; margin-bottom: 10px; }
+.right-panel .legend-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 8px;
+  margin-bottom: 14px;
+}
+.right-panel .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555;
+}
+.right-panel .legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.right-panel .timeline-list {
+  list-style: none;
+  max-height: 380px;
+  overflow-y: auto;
+}
 .right-panel .timeline-item {
-  display: flex; align-items: center; gap: 6px; padding: 6px 0;
-  border-bottom: 1px solid var(--border-subtle); font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 12px;
 }
 .right-panel .timeline-item:last-child { border-bottom: none; }
-.right-panel .timeline-time { color: var(--text-secondary); white-space: nowrap; min-width: 64px; font-family: 'Courier New', monospace; }
-.right-panel .timeline-subject { color: var(--text); font-weight: 500; }
-.right-panel .timeline-badge { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.right-panel .timeline-item.current { background: #e3f2fd; border-radius: 6px; padding: 7px 6px; margin: 0 -6px; }
-.right-panel .timeline-item.next { background: #fffde7; border-radius: 6px; padding: 7px 6px; margin: 0 -6px; }
-
-/* Stats */
-.stats-list { font-size: 12px; }
-.stats-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-.stats-label { width: 50px; text-align: right; color: var(--text-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.stats-bar-wrap { flex: 1; height: 14px; background: var(--exam-progress-track); border-radius: 4px; overflow: hidden; }
-.stats-bar { height: 100%; border-radius: 4px; transition: width 0.4s; }
-.stats-count { width: 24px; font-size: 11px; color: var(--text-secondary); text-align: right; }
-
-@media (max-width: 1350px) { .right-panel { display: none; } }
+.right-panel .timeline-time {
+  color: #999;
+  white-space: nowrap;
+  min-width: 64px;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Courier New', monospace;
+}
+.right-panel .timeline-subject {
+  color: #333;
+  font-weight: 500;
+}
+.right-panel .timeline-badge {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.right-panel .timeline-item.current {
+  background: #e3f2fd;
+  border-radius: 6px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+}
+.right-panel .timeline-item.next {
+  background: #fffde7;
+  border-radius: 6px;
+  padding: 7px 6px;
+  margin: 0 -6px;
+}
+@media (max-width: 1350px) {
+  .right-panel { display: none; }
+}
 .info-banner {
-  background: var(--info-banner-bg);
+  background: linear-gradient(135deg, #5B4FCF 0%, #7C6FE0 50%, #6A5ACD 100%);
   color: #fff;
   border-radius: 10px;
   padding: 14px 20px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   gap: 14px;
   font-size: 14px;
   flex-wrap: wrap;
   line-height: 1.5;
-  transition: background 0.3s;
 }
-.info-banner .banner-dot { width: 8px; height: 8px; background: #D3D3D3; border-radius: 50%; flex-shrink: 0; }
-.info-banner .banner-sep { color: rgba(255,255,255,0.5); font-size: 12px; }
-.info-banner .banner-status { font-weight: 600; white-space: nowrap; }
-.info-banner .banner-tomorrow { flex: 1 1 auto; min-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-/* Exam progress */
-.exam-progress-row { display: flex; gap: 10px; margin-bottom: 14px; }
-.exam-card {
-  flex: 1; background: var(--exam-card-bg); border: 1px solid var(--exam-card-border);
-  border-radius: 10px; padding: 12px 14px; transition: background 0.3s, border-color 0.3s;
+.info-banner .banner-dot {
+  width: 8px;
+  height: 8px;
+  background: #D3D3D3;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
-.exam-card .exam-title { font-size: 13px; color: var(--text-sub); margin-bottom: 6px; }
-.exam-card .exam-days { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-.exam-card .exam-progress-bar {
-  height: 8px; background: var(--exam-progress-track); border-radius: 4px; overflow: hidden; margin-bottom: 4px;
+.info-banner .banner-sep {
+  color: rgba(255,255,255,0.5);
+  font-size: 12px;
 }
-.exam-card .exam-progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
-.exam-card .exam-progress-label { font-size: 11px; color: var(--text-light); }
-.exam-card.urgent-30 .exam-days { color: #e67e22; }
-.exam-card.urgent-30 .exam-progress-fill { background: #e67e22; }
-.exam-card.urgent-7 .exam-days { color: #e74c3c; animation: pulse-red 1s infinite; }
-.exam-card.urgent-7 .exam-progress-fill { background: #e74c3c; }
-@keyframes pulse-red { 0%,100%{opacity:1} 50%{opacity:0.5} }
-
+.info-banner .banner-status {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.info-banner .banner-countdown {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.info-banner .banner-tomorrow {
+  flex: 1 1 auto;
+  min-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .break-timer {
-  background: var(--break-timer-bg);
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
   color: #fff;
   border-radius: 10px;
   padding: 12px 18px;
@@ -265,12 +261,16 @@ body {
   justify-content: space-between;
   font-size: 16px;
   font-weight: 600;
-  transition: background 0.3s;
 }
-.break-timer .countdown { font-size: 26px; font-weight: 700; font-family: 'Courier New', monospace; }
+.break-timer .countdown {
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: 'Courier New', monospace;
+}
 .weekend-banner {
-  background: var(--weekend-banner-bg);
-  color: var(--weekend-banner-text);
+  background: linear-gradient(135deg, #a8e6cf 0%, #88d8b0 100%);
+  color: #1b5e20;
   border-radius: 10px;
   padding: 16px 20px;
   margin-bottom: 14px;
@@ -278,56 +278,60 @@ body {
   font-weight: 700;
   text-align: center;
   letter-spacing: 4px;
-  transition: background 0.3s;
 }
-canvas { display: block; width: 100%; border-radius: 8px; }
+canvas {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
 @media (max-width: 900px) {
   .container { flex-direction: column; }
-  .sidebar { width: 100%; min-width: auto; display: flex; flex-wrap: wrap; gap: 10px; padding: 14px; justify-content: center; }
-  .sidebar .date-box { flex: 1 1 100%; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 16px; }
+  .sidebar {
+    width: 100%;
+    min-width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px;
+    justify-content: center;
+  }
+  .sidebar .date-box {
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 16px;
+  }
   .sidebar .date-box .month { font-size: 13px; }
   .sidebar .date-box .day { font-size: 30px; }
   .sidebar .date-box .weekday { font-size: 14px; }
-  .sidebar .info-card { flex: 1 1 auto; min-width: 100px; margin-bottom: 0; }
-  .sidebar .next-class-preview { flex: 1 1 100%; margin-top: 0; }
+  .sidebar .info-card {
+    flex: 1 1 auto;
+    min-width: 100px;
+    margin-bottom: 0;
+  }
+  .sidebar .next-class-preview {
+    flex: 1 1 100%;
+    margin-top: 0;
+  }
   .main { padding: 14px; }
-  .exam-progress-row { flex-direction: column; }
 }
 </style>
 </head>
-<body class="theme-default">
+<body>
 <div class="container">
   <aside class="sidebar" id="sidebar"></aside>
   <main class="main">
-    <div class="header-row">
-      <h1>📅 初二一班实时课程表</h1>
-      <div class="theme-switcher">
-        <button class="btn-default active" data-theme="default" title="默认主题"></button>
-        <button class="btn-dark" data-theme="dark" title="暗色模式"></button>
-        <button class="btn-green" data-theme="green" title="护眼绿"></button>
-        <button class="btn-warm" data-theme="warm" title="暖色橙"></button>
-      </div>
-    </div>
+    <h1>📅 初二一班实时课程表</h1>
     <div class="subtitle" id="currentTimeDisplay"></div>
     <div class="info-banner" id="infoBanner">
       <span class="banner-dot"></span>
       <span class="banner-status" id="bannerStatus"></span>
       <span class="banner-sep">|</span>
+      <span class="banner-countdown" id="bannerCountdown"></span>
+      <span class="banner-sep">|</span>
       <span class="banner-tomorrow" id="bannerTomorrow"></span>
-    </div>
-    <div class="exam-progress-row">
-      <div class="exam-card" id="examHuikao">
-        <div class="exam-title">会考倒计时</div>
-        <div class="exam-days" id="huikaoDays"></div>
-        <div class="exam-progress-bar"><div class="exam-progress-fill" id="huikaoBar"></div></div>
-        <div class="exam-progress-label">2026年6月20日</div>
-      </div>
-      <div class="exam-card" id="examZhongkao">
-        <div class="exam-title">中考倒计时</div>
-        <div class="exam-days" id="zhongkaoDays"></div>
-        <div class="exam-progress-bar"><div class="exam-progress-fill" id="zhongkaoBar"></div></div>
-        <div class="exam-progress-label">2027年6月20日</div>
-      </div>
     </div>
     <div class="break-timer" id="breakTimer" style="display:none;">
       <span>⏱ 距离下课还有</span>
@@ -339,10 +343,6 @@ canvas { display: block; width: 100%; border-radius: 8px; }
   <aside class="right-panel" id="rightPanel">
     <h3>科目图例</h3>
     <div class="legend-grid" id="legendGrid"></div>
-    <hr class="section-divider">
-    <h3>本周统计</h3>
-    <div class="stats-list" id="statsList"></div>
-    <hr class="section-divider">
     <h3>今日课程</h3>
     <ul class="timeline-list" id="timelineList"></ul>
   </aside>
@@ -370,7 +370,7 @@ const TIME_SLOTS = [
   { period:'第4节',  start:'11:00', end:'11:40' },
   { period:'第5节',  start:'14:40', end:'15:20' },
   { period:'第6节',  start:'15:35', end:'16:15' },
-  { period:'第7节',  start:'16:30', end:'17:10' },
+  { period:'第7节',  start:'16:30', end:'18:00' },
   { period:'第8节',  start:'17:25', end:'18:05' },
   { period:'生地背书', start:'18:50', end:'19:30' },
 ];
@@ -378,11 +378,6 @@ const TIME_SLOTS = [
 const EXAM_DATES = {
   huikao: new Date('2026-06-20'),
   zhongkao: new Date('2027-06-20'),
-};
-
-const EXAM_TOTAL = {
-  huikao: Math.ceil((new Date('2026-06-20') - new Date('2025-09-01')) / (1000 * 60 * 60 * 24)),
-  zhongkao: Math.ceil((new Date('2027-06-20') - new Date('2025-09-01')) / (1000 * 60 * 60 * 24)),
 };
 
 const COLORS = {
@@ -402,27 +397,34 @@ const COLOR_BG = {
 const days = ['星期一','星期二','星期三','星期四','星期五'];
 const dayKeys = ['mon','tue','wed','thu','fri'];
 
-function timeToMinutes(t) { const [h,m] = t.split(':').map(Number); return h*60 + m; }
+function timeToMinutes(t) {
+  const [h,m] = t.split(':').map(Number);
+  return h*60 + m;
+}
 
 function getCurrentClassInfo() {
   const now = new Date();
-  const dow = now.getDay();
+  const dow = now.getDay(); // 0=Sun, 1=Mon, ...
   const currentMinutes = now.getHours()*60 + now.getMinutes();
   if (dow === 0 || dow === 6) return { isWeekend: true, dow };
-  const dayIdx = dow - 1;
+  const dayIdx = dow - 1; // 0=Mon
   let currentClass = null, nextClass = null;
   for (let i = 0; i < TIME_SLOTS.length; i++) {
     const s = timeToMinutes(TIME_SLOTS[i].start);
     const e = timeToMinutes(TIME_SLOTS[i].end);
     if (currentMinutes >= s && currentMinutes < e) {
       currentClass = { ...TIME_SLOTS[i], index: i, endMinutes: e };
-      if (i + 1 < TIME_SLOTS.length) nextClass = { ...TIME_SLOTS[i+1], index: i+1 };
+      if (i + 1 < TIME_SLOTS.length) {
+        nextClass = { ...TIME_SLOTS[i+1], index: i+1 };
+      }
       return { isWeekend: false, dow, dayIdx, currentClass, nextClass, currentMinutes };
     }
   }
   for (let i = 0; i < TIME_SLOTS.length; i++) {
-    if (currentMinutes < timeToMinutes(TIME_SLOTS[i].start)) {
-      return { isWeekend: false, dow, dayIdx, currentClass: null, nextClass: { ...TIME_SLOTS[i], index: i }, currentMinutes };
+    const s = timeToMinutes(TIME_SLOTS[i].start);
+    if (currentMinutes < s) {
+      nextClass = { ...TIME_SLOTS[i], index: i };
+      return { isWeekend: false, dow, dayIdx, currentClass: null, nextClass, currentMinutes };
     }
   }
   return { isWeekend: false, dow, dayIdx, currentClass: null, nextClass: null, currentMinutes };
@@ -434,75 +436,107 @@ function drawSchedule() {
   const canvas = document.getElementById('scheduleCanvas');
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
-  const rows = SCHEDULE.length + 1;
-  const cellW = 150, cellH = 50, periodW = 95, headerH = 58;
-  const totalW = periodW + cellW * 5 + 8;
-  const totalH = headerH + cellH * (rows - 1) + rows;
+
+  const rows = SCHEDULE.length + 1; // header + data
+  const cols = 6; // period + 5 days
+
+  const cellW = 150;
+  const cellH = 50;
+  const periodW = 95;
+  const headerH = 58;
+  const totalW = periodW + cellW * 5 + 8 * 1;
+  const totalH = headerH + cellH * (rows - 1) + (rows) * 1;
 
   canvas.width = totalW * dpr;
   canvas.height = totalH * dpr;
   canvas.style.width = totalW + 'px';
   canvas.style.height = totalH + 'px';
   ctx.scale(dpr, dpr);
+
   ctx.clearRect(0, 0, totalW, totalH);
 
-  const style = getComputedStyle(document.body);
-  const headerColor = style.getPropertyValue('--canvas-header').trim() || '#1a1a2e';
-  const periodBg = style.getPropertyValue('--canvas-period-bg').trim() || '#f5f5f5';
-  const periodText = style.getPropertyValue('--canvas-period-text').trim() || '#555';
-
-  ctx.fillStyle = headerColor;
+  // Draw header row
+  ctx.fillStyle = '#1a1a2e';
   roundRect(ctx, 0, 0, periodW, headerH, 8, true, false);
   ctx.fillStyle = '#fff';
   ctx.font = 'bold 17px "PingFang SC","Microsoft YaHei",sans-serif';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
   ctx.fillText('课时', periodW/2, headerH/2);
 
   for (let c = 0; c < 5; c++) {
     const x = periodW + 1 + c * (cellW + 1);
-    ctx.fillStyle = headerColor;
+    ctx.fillStyle = '#1a1a2e';
     roundRect(ctx, x, 0, cellW, headerH, 8, true, false);
     ctx.fillStyle = '#fff';
     ctx.font = 'bold 16px "PingFang SC","Microsoft YaHei",sans-serif';
     ctx.fillText(days[c], x + cellW/2, headerH/2);
   }
 
+  // Draw data rows
   for (let r = 0; r < SCHEDULE.length; r++) {
     const y = headerH + 1 + r * (cellH + 1);
     const isCurrentRow = classInfo.currentClass && classInfo.currentClass.index === r && !classInfo.isWeekend;
     const isNextRow = classInfo.nextClass && classInfo.nextClass.index === r && !classInfo.isWeekend && !isCurrentRow;
     const dayIdx = classInfo.isWeekend ? -1 : classInfo.dayIdx;
 
-    let pBg = periodBg, pText = periodText;
-    if (isCurrentRow) { pBg = '#e3f2fd'; pText = '#1565c0'; }
-    else if (isNextRow) { pBg = '#fffde7'; pText = '#f57f17'; }
+    // Period column
+    let periodBg = '#f5f5f5';
+    let periodTextColor = '#555';
+    if (isCurrentRow) { periodBg = '#e3f2fd'; periodTextColor = '#1565c0'; }
+    else if (isNextRow) { periodBg = '#fffde7'; periodTextColor = '#f57f17'; }
 
-    ctx.fillStyle = pBg;
+    ctx.fillStyle = periodBg;
     roundRect(ctx, 0, y, periodW, cellH, 6, true, false);
-    ctx.fillStyle = pText;
+    ctx.fillStyle = periodTextColor;
     ctx.font = 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif';
     ctx.fillText(SCHEDULE[r].period, periodW/2, y + cellH/2 - 2);
 
+    // Draw time range in small font below period name
     if (TIME_SLOTS[r]) {
-      ctx.fillStyle = pText; ctx.globalAlpha = 0.6;
+      ctx.fillStyle = periodTextColor;
+      ctx.globalAlpha = 0.6;
       ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
       ctx.fillText(TIME_SLOTS[r].start + '-' + TIME_SLOTS[r].end, periodW/2, y + cellH/2 + 16);
       ctx.globalAlpha = 1;
     }
 
+    // Day columns
     for (let c = 0; c < 5; c++) {
       const x = periodW + 1 + c * (cellW + 1);
       const subject = SCHEDULE[r][dayKeys[c]];
       const color = COLORS[subject] || '#888';
       const bg = COLOR_BG[subject] || '#fafafa';
-      let cellBg = bg, borderColor = null, textColor = '#333';
-      if (isCurrentRow && dayIdx === c) { cellBg = '#bbdefb'; borderColor = '#1565c0'; textColor = '#0d47a1'; }
-      else if (isNextRow && dayIdx === c) { cellBg = '#fff9c4'; borderColor = '#f9a825'; textColor = '#e65100'; }
+
+      // Determine if this cell should be highlighted
+      let cellBg = bg;
+      let borderColor = null;
+      let textColor = '#333';
+
+      if (isCurrentRow && dayIdx === c) {
+        cellBg = '#bbdefb';
+        borderColor = '#1565c0';
+        textColor = '#0d47a1';
+      } else if (isNextRow && dayIdx === c) {
+        cellBg = '#fff9c4';
+        borderColor = '#f9a825';
+        textColor = '#e65100';
+      }
+
       ctx.fillStyle = cellBg;
       roundRect(ctx, x, y, cellW, cellH, 6, true, false);
-      if (borderColor) { ctx.strokeStyle = borderColor; ctx.lineWidth = 2.5; roundRect(ctx, x, y, cellW, cellH, 6, false, true); ctx.lineWidth = 1; }
+
+      if (borderColor) {
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 2.5;
+        roundRect(ctx, x, y, cellW, cellH, 6, false, true);
+        ctx.lineWidth = 1;
+      }
+
+      // Left color bar
       ctx.fillStyle = color;
       ctx.fillRect(x, y + 4, 4, cellH - 8);
+
       ctx.fillStyle = textColor;
       ctx.font = (isCurrentRow && dayIdx === c) ? 'bold 14px "PingFang SC","Microsoft YaHei",sans-serif' : '14px "PingFang SC","Microsoft YaHei",sans-serif';
       ctx.textAlign = 'center';
@@ -510,133 +544,190 @@ function drawSchedule() {
     }
   }
 
+  // Legend
   const legendY = totalH + 10;
-  ctx.textAlign = 'left'; ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign = 'left';
+  ctx.font = '11px "PingFang SC","Microsoft YaHei",sans-serif';
   const legendItems = [
     { color:'#bbdefb', border:'#1565c0', label:'正在上课' },
     { color:'#fff9c4', border:'#f9a825', label:'下一节课' },
   ];
   legendItems.forEach((item, i) => {
     const lx = periodW + i * 160;
-    ctx.fillStyle = item.color; ctx.fillRect(lx, legendY, 16, 16);
-    ctx.strokeStyle = item.border; ctx.lineWidth = 2; ctx.strokeRect(lx, legendY, 16, 16); ctx.lineWidth = 1;
-    ctx.fillStyle = periodText; ctx.fillText(item.label, lx + 22, legendY + 12);
+    ctx.fillStyle = item.color;
+    ctx.fillRect(lx, legendY, 16, 16);
+    ctx.strokeStyle = item.border;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(lx, legendY, 16, 16);
+    ctx.lineWidth = 1;
+    ctx.fillStyle = '#555';
+    ctx.fillText(item.label, lx + 22, legendY + 12);
   });
 }
 
 function roundRect(ctx, x, y, w, h, r, fill, stroke) {
   ctx.beginPath();
-  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
-  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
-  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
-  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r);
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.arcTo(x+w, y, x+w, y+r, r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.arcTo(x+w, y+h, x+w-r, y+h, r);
+  ctx.lineTo(x+r, y+h);
+  ctx.arcTo(x, y+h, x, y+h-r, r);
+  ctx.lineTo(x, y+r);
+  ctx.arcTo(x, y, x+r, y, r);
   ctx.closePath();
-  if (fill) ctx.fill(); if (stroke) ctx.stroke();
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
 }
 
 function updateSidebar() {
   const now = new Date();
   const months = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
   const weekdays = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  const month = months[now.getMonth()];
+  const day = now.getDate();
+  const weekday = weekdays[now.getDay()];
+
   classInfo = getCurrentClassInfo();
   const dayIdx = classInfo.isWeekend ? -1 : classInfo.dayIdx;
-  const totalClasses = classInfo.isWeekend ? 0 : SCHEDULE.length;
-  const encourageMessages = ['💪 又是元气满满的一天！','📚 知识改变命运，加油！','🌟 今天的努力是明天的底气！','🎯 专注每一节课，收获每一天！','🔥 保持热爱，奔赴山海！','✨ 初二一班，永远最棒！','🏆 日积月累，水滴石穿！','🌈 每一步都算数，加油少年！'];
 
-  let html = '<div class="date-box">';
-  html += '<div class="month">' + months[now.getMonth()] + '</div>';
-  html += '<div class="day">' + now.getDate() + '</div>';
-  html += '<div class="weekday">' + weekdays[now.getDay()] + '</div></div>';
+  let totalClasses = 0;
+  if (!classInfo.isWeekend) {
+    totalClasses = SCHEDULE.length;
+  }
+
+  const encourageMessages = [
+    '💪 又是元气满满的一天！',
+    '📚 知识改变命运，加油！',
+    '🌟 今天的努力是明天的底气！',
+    '🎯 专注每一节课，收获每一天！',
+    '🔥 保持热爱，奔赴山海！',
+    '✨ 初二一班，永远最棒！',
+    '🏆 日积月累，水滴石穿！',
+    '🌈 每一步都算数，加油少年！',
+  ];
+  const encourage = encourageMessages[now.getDate() % encourageMessages.length];
+
+  let sidebarHTML = '';
+  sidebarHTML += '<div class="date-box">';
+  sidebarHTML += '<div class="month">' + month + '</div>';
+  sidebarHTML += '<div class="day">' + day + '</div>';
+  sidebarHTML += '<div class="weekday">' + weekday + '</div>';
+  sidebarHTML += '</div>';
 
   if (classInfo.isWeekend) {
-    html += '<div class="weekend-msg">🌿 好好休息<br>周末愉快</div>';
+    sidebarHTML += '<div class="weekend-msg">🌿 好好休息<br>周末愉快</div>';
   } else {
-    html += '<div class="info-card"><div class="info-label">今日课程</div><div class="info-value">' + totalClasses + ' 节</div><div class="encourage">' + encourageMessages[now.getDate() % encourageMessages.length] + '</div></div>';
+    sidebarHTML += '<div class="info-card">';
+    sidebarHTML += '<div class="info-label">今日课程</div>';
+    sidebarHTML += '<div class="info-value">' + totalClasses + ' 节</div>';
+    sidebarHTML += '<div class="encourage">' + encourage + '</div>';
+    sidebarHTML += '</div>';
+
+    // Next class preview
     if (classInfo.nextClass) {
-      const ns = SCHEDULE[classInfo.nextClass.index][dayKeys[dayIdx]];
-      html += '<div class="next-class-preview"><div class="nc-label">📌 下一节课预告</div><div class="nc-name">' + ns + '</div><div class="nc-time">' + classInfo.nextClass.period + ' · ' + classInfo.nextClass.start + '-' + classInfo.nextClass.end + '</div></div>';
+      const nextSubject = SCHEDULE[classInfo.nextClass.index][dayKeys[dayIdx]];
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">📌 下一节课预告</div>';
+      sidebarHTML += '<div class="nc-name">' + nextSubject + '</div>';
+      sidebarHTML += '<div class="nc-time">' + classInfo.nextClass.period + ' · ' + classInfo.nextClass.start + '-' + classInfo.nextClass.end + '</div>';
+      sidebarHTML += '</div>';
     } else if (classInfo.currentClass) {
-      html += '<div class="next-class-preview"><div class="nc-label">📌 今日最后一节课</div><div class="nc-name">认真上课中</div><div class="nc-time">放学后好好休息~</div></div>';
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">📌 今日最后一节课</div>';
+      sidebarHTML += '<div class="nc-name">认真上课中</div>';
+      sidebarHTML += '<div class="nc-time">放学后好好休息~</div>';
+      sidebarHTML += '</div>';
     } else {
-      html += '<div class="next-class-preview"><div class="nc-label">📌 今日课程已结束</div><div class="nc-name">辛苦了！</div><div class="nc-time">记得复习今天的内容~</div></div>';
+      sidebarHTML += '<div class="next-class-preview">';
+      sidebarHTML += '<div class="nc-label">📌 今日课程已结束</div>';
+      sidebarHTML += '<div class="nc-name">辛苦了！</div>';
+      sidebarHTML += '<div class="nc-time">记得复习今天的内容~</div>';
+      sidebarHTML += '</div>';
     }
   }
-  document.getElementById('sidebar').innerHTML = html;
+
+  document.getElementById('sidebar').innerHTML = sidebarHTML;
 }
 
 function updateBanner() {
   const now = new Date();
-  const ci = getCurrentClassInfo();
+  const classInfo = getCurrentClassInfo();
+
+  // Status
   let statusText;
-  if (ci.isWeekend) statusText = '周末休息中';
-  else if (ci.currentClass) { const subj = SCHEDULE[ci.currentClass.index][dayKeys[ci.dayIdx]]; statusText = '正在上课：' + subj + '（' + ci.currentClass.period + '）'; }
-  else if (ci.nextClass) statusText = '课间休息，下一节：' + ci.nextClass.period;
-  else statusText = '今日课程已全部结束';
+  if (classInfo.isWeekend) {
+    statusText = '周末休息中';
+  } else if (classInfo.currentClass) {
+    const subj = SCHEDULE[classInfo.currentClass.index][dayKeys[classInfo.dayIdx]];
+    statusText = '正在上课：' + subj + '（' + classInfo.currentClass.period + '）';
+  } else if (classInfo.nextClass) {
+    statusText = '课间休息，下一节：' + classInfo.nextClass.period;
+  } else {
+    statusText = '今日课程已全部结束';
+  }
   document.getElementById('bannerStatus').textContent = statusText;
 
+  // Countdown
+  const diffHuikao = Math.ceil((EXAM_DATES.huikao - now) / (1000 * 60 * 60 * 24));
+  const diffZhongkao = Math.ceil((EXAM_DATES.zhongkao - now) / (1000 * 60 * 60 * 24));
+  document.getElementById('bannerCountdown').textContent =
+    '会考' + diffHuikao + '天 | 中考' + diffZhongkao + '天';
+
+  // Tomorrow classes
   let tomorrowText;
-  if (ci.isWeekend) {
-    tomorrowText = now.getDay() === 0 ? '周一课程：' + SCHEDULE.map(r => r[dayKeys[0]]).join('、') : '享受周末，周一见';
+  if (classInfo.isWeekend) {
+    const mondayIdx = now.getDay() === 0 ? 0 : -1; // Sunday → Monday, Saturday → no tomorrow classes
+    if (mondayIdx === 0) {
+      const subjects = SCHEDULE.map(r => r[dayKeys[0]]).join('、');
+      tomorrowText = '周一课程：' + subjects;
+    } else {
+      tomorrowText = '享受周末，周一见';
+    }
   } else {
-    const td = now.getDay() + 1;
-    tomorrowText = td <= 5 ? '明日课程：' + SCHEDULE.map(r => r[dayKeys[td - 1]]).join('、') : '明日周末，好好休息';
+    const tomorrowDow = now.getDay() + 1;
+    if (tomorrowDow <= 5) {
+      const idx = tomorrowDow - 1;
+      const subjects = SCHEDULE.map(r => r[dayKeys[idx]]).join('、');
+      tomorrowText = '明日课程：' + subjects;
+    } else {
+      tomorrowText = '明日周末，好好休息';
+    }
   }
   document.getElementById('bannerTomorrow').textContent = tomorrowText;
 }
 
-function updateExamProgress() {
-  const now = new Date();
-  const huikaoDiff = Math.ceil((EXAM_DATES.huikao - now) / (1000 * 60 * 60 * 24));
-  const zhongkaoDiff = Math.ceil((EXAM_DATES.zhongkao - now) / (1000 * 60 * 60 * 24));
-  const hkPct = Math.max(0, Math.min(100, ((EXAM_TOTAL.huikao - huikaoDiff) / EXAM_TOTAL.huikao) * 100));
-  const zkPct = Math.max(0, Math.min(100, ((EXAM_TOTAL.zhongkao - zhongkaoDiff) / EXAM_TOTAL.zhongkao) * 100));
-
-  document.getElementById('huikaoDays').textContent = huikaoDiff > 0 ? huikaoDiff + ' 天' : '已开考';
-  document.getElementById('zhongkaoDays').textContent = zhongkaoDiff + ' 天';
-  document.getElementById('huikaoBar').style.width = hkPct + '%';
-  document.getElementById('zhongkaoBar').style.width = zkPct + '%';
-
-  const hkCard = document.getElementById('examHuikao');
-  const zkCard = document.getElementById('examZhongkao');
-  hkCard.classList.remove('urgent-30', 'urgent-7');
-  zkCard.classList.remove('urgent-30', 'urgent-7');
-  if (huikaoDiff <= 7) hkCard.classList.add('urgent-7');
-  else if (huikaoDiff <= 30) hkCard.classList.add('urgent-30');
-  if (zhongkaoDiff <= 7) zkCard.classList.add('urgent-7');
-  else if (zhongkaoDiff <= 30) zkCard.classList.add('urgent-30');
-}
-
 function updateRightPanel() {
-  const ci = getCurrentClassInfo();
+  const classInfo = getCurrentClassInfo();
+
+  // Legend
   const allSubjects = new Set();
   SCHEDULE.forEach(r => dayKeys.forEach(k => allSubjects.add(r[k])));
   const sorted = [...allSubjects].sort();
   let legendHTML = '';
-  sorted.forEach(s => { if (s !== '✓') legendHTML += '<div class="legend-item"><span class="legend-dot" style="background:' + (COLORS[s]||'#888') + '"></span>' + s + '</div>'; });
+  sorted.forEach(s => {
+    if (s === '✓') return;
+    legendHTML += '<div class="legend-item"><span class="legend-dot" style="background:' + (COLORS[s]||'#888') + '"></span>' + s + '</div>';
+  });
   document.getElementById('legendGrid').innerHTML = legendHTML;
 
-  // Weekly stats
-  const subjectCount = {};
-  SCHEDULE.forEach(r => dayKeys.forEach(k => { const s = r[k]; if (s !== '✓') subjectCount[s] = (subjectCount[s] || 0) + 1; }));
-  const statsSorted = Object.entries(subjectCount).sort((a, b) => b[1] - a[1]);
-  const maxCount = statsSorted[0] ? statsSorted[0][1] : 1;
-  let statsHTML = '';
-  statsSorted.forEach(([subj, count]) => {
-    const pct = (count / maxCount) * 100;
-    statsHTML += '<div class="stats-row"><span class="stats-label">' + subj + '</span><div class="stats-bar-wrap"><div class="stats-bar" style="width:' + pct + '%;background:' + (COLORS[subj]||'#888') + '"></div></div><span class="stats-count">' + count + '</span></div>';
-  });
-  document.getElementById('statsList').innerHTML = statsHTML;
-
+  // Timeline
   let timelineHTML = '';
-  if (ci.isWeekend) {
-    timelineHTML = '<li class="timeline-item"><span style="color:var(--text-secondary)">周末休息</span></li>';
+  if (classInfo.isWeekend) {
+    timelineHTML = '<li class="timeline-item"><span style="color:#999">周末休息</span></li>';
   } else {
+    const dayIdx = classInfo.dayIdx;
     TIME_SLOTS.forEach((slot, i) => {
-      const subject = SCHEDULE[i][dayKeys[ci.dayIdx]];
+      const subject = SCHEDULE[i][dayKeys[dayIdx]];
       let cls = '';
-      if (ci.currentClass && ci.currentClass.index === i) cls = ' current';
-      else if (ci.nextClass && ci.nextClass.index === i) cls = ' next';
-      timelineHTML += '<li class="timeline-item' + cls + '"><span class="timeline-badge" style="background:' + (COLORS[subject]||'#888') + '"></span><span class="timeline-time">' + slot.start + '-' + slot.end + '</span><span class="timeline-subject">' + subject + '</span></li>';
+      if (classInfo.currentClass && classInfo.currentClass.index === i) cls = ' current';
+      else if (classInfo.nextClass && classInfo.nextClass.index === i) cls = ' next';
+      timelineHTML += '<li class="timeline-item' + cls + '">';
+      timelineHTML += '<span class="timeline-badge" style="background:' + (COLORS[subject]||'#888') + '"></span>';
+      timelineHTML += '<span class="timeline-time">' + slot.start + '-' + slot.end + '</span>';
+      timelineHTML += '<span class="timeline-subject">' + subject + '</span>';
+      timelineHTML += '</li>';
     });
   }
   document.getElementById('timelineList').innerHTML = timelineHTML;
@@ -644,47 +735,38 @@ function updateRightPanel() {
 
 function updateTimer() {
   const now = new Date();
-  document.getElementById('currentTimeDisplay').textContent = '当前时间：' + now.toLocaleTimeString('zh-CN', {hour12:false});
+  document.getElementById('currentTimeDisplay').textContent =
+    '当前时间：' + now.toLocaleTimeString('zh-CN', {hour12:false});
+
   classInfo = getCurrentClassInfo();
   updateBanner();
-  updateExamProgress();
   const breakTimer = document.getElementById('breakTimer');
   const weekendBanner = document.getElementById('weekendBanner');
   const countdownText = document.getElementById('countdownText');
+
   if (classInfo.isWeekend) {
-    breakTimer.style.display = 'none'; weekendBanner.style.display = 'block';
+    breakTimer.style.display = 'none';
+    weekendBanner.style.display = 'block';
   } else if (classInfo.currentClass) {
-    weekendBanner.style.display = 'none'; breakTimer.style.display = 'flex';
+    weekendBanner.style.display = 'none';
+    breakTimer.style.display = 'flex';
     const remaining = classInfo.currentClass.endMinutes - classInfo.currentMinutes;
-    const min = Math.floor(remaining); const sec = Math.floor((remaining - min) * 60);
+    const min = Math.floor(remaining);
+    const sec = Math.floor((remaining - min) * 60);
     countdownText.textContent = String(min).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
   } else {
-    weekendBanner.style.display = 'none'; breakTimer.style.display = 'none';
+    weekendBanner.style.display = 'none';
+    breakTimer.style.display = 'none';
   }
-}
-
-function applyTheme(theme) {
-  document.body.className = 'theme-' + theme;
-  localStorage.setItem('schedule-theme', theme);
-  document.querySelectorAll('.theme-switcher button').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
-  drawSchedule();
 }
 
 function refreshAll() {
   updateSidebar();
   updateTimer();
+  updateBanner();
   updateRightPanel();
   drawSchedule();
 }
-
-// Theme switcher
-document.querySelectorAll('.theme-switcher button').forEach(btn => {
-  btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
-});
-
-// Load saved theme
-const savedTheme = localStorage.getItem('schedule-theme');
-if (savedTheme) applyTheme(savedTheme);
 
 refreshAll();
 setInterval(refreshAll, 1000);
