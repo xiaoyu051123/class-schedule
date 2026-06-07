@@ -757,15 +757,32 @@ function fmtTime(sec) {
 let loadRetry = 0;
 const MAX_RETRY = 3;
 
-function loadSong(idx) {
+const blobCache = {};
+
+async function loadSong(idx) {
   loadRetry = 0;
   currentIdx = ((idx % playlist.length) + playlist.length) % playlist.length;
   const s = playlist[currentIdx];
-  audio.src = s.src;
   songNameEl.textContent = s.title;
-  audio.load();
   renderPlaylist();
-  if (audio.paused) {
+  btnPlay.textContent = '▶';
+
+  if (blobCache[s.src]) {
+    audio.src = blobCache[s.src];
+    return;
+  }
+
+  songNameEl.textContent = s.title + ' 加载中...';
+  try {
+    const resp = await fetch(s.src);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const blob = await resp.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    blobCache[s.src] = blobUrl;
+    audio.src = blobUrl;
+    songNameEl.textContent = s.title;
+  } catch (e) {
+    songNameEl.textContent = '⚠ ' + s.title + ' - 加载失败，点击重试';
     btnPlay.textContent = '▶';
   }
 }
@@ -778,9 +795,13 @@ function renderPlaylist() {
   playlistEl.innerHTML = html;
 }
 
-function playPause() {
-  if (!audio.src || audio.src === window.location.href) { loadSong(0); }
+async function playPause() {
+  if (!audio.src || audio.src === window.location.href) { await loadSong(0); }
   if (audio.paused) {
+    if (!audio.src.startsWith('blob:') && !blobCache[playlist[currentIdx].src]) {
+      await loadSong(currentIdx);
+      if (!audio.src.startsWith('blob:')) return;
+    }
     audio.play();
     btnPlay.textContent = '⏸';
   } else {
@@ -789,16 +810,16 @@ function playPause() {
   }
 }
 
-function playNext() {
+async function playNext() {
   const next = (currentIdx + 1) % playlist.length;
-  loadSong(next);
+  await loadSong(next);
   audio.play();
   btnPlay.textContent = '⏸';
 }
 
-function playPrev() {
+async function playPrev() {
   const prev = (currentIdx - 1 + playlist.length) % playlist.length;
-  loadSong(prev);
+  await loadSong(prev);
   audio.play();
   btnPlay.textContent = '⏸';
 }
@@ -819,11 +840,11 @@ btnPlaylist.addEventListener('click', () => {
   playlistEl.style.display = vis ? 'none' : 'block';
 });
 
-playlistEl.addEventListener('click', (e) => {
+playlistEl.addEventListener('click', async (e) => {
   const item = e.target.closest('.playlist-item');
   if (!item) return;
   const idx = parseInt(item.dataset.idx);
-  loadSong(idx);
+  await loadSong(idx);
   audio.play();
   btnPlay.textContent = '⏸';
 });
@@ -858,31 +879,6 @@ audio.addEventListener('ended', () => {
     btnPlay.textContent = '▶';
     progressFill.style.width = '0%';
   }
-});
-
-audio.addEventListener('error', () => {
-  loadRetry++;
-  if (loadRetry <= MAX_RETRY) {
-    songNameEl.textContent = '加载失败，重试中(' + loadRetry + '/' + MAX_RETRY + ')...';
-    setTimeout(() => {
-      const s = playlist[currentIdx];
-      audio.src = s.src + '?r=' + Date.now();
-      audio.load();
-      if (!audio.paused) audio.play();
-    }, 800);
-  } else {
-    songNameEl.textContent = '⚠ ' + playlist[currentIdx].title + ' - 加载失败，请重试';
-    btnPlay.textContent = '▶';
-    progressFill.style.width = '0%';
-  }
-});
-
-audio.addEventListener('loadstart', () => {
-  songNameEl.textContent = playlist[currentIdx].title + ' 加载中...';
-});
-
-audio.addEventListener('canplay', () => {
-  songNameEl.textContent = playlist[currentIdx].title;
 });
 
 // init player
